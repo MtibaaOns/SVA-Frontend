@@ -24,6 +24,7 @@ import { SpecialiteComponent } from './parametrages/specialite/specialite.compon
 import { SpecAddEditComponent } from './parametrages/specialite/spec-add-edit/spec-add-edit.component';
 import { UtilisateurComponent } from './parametrages/utilisateur/utilisateur.component';
 import { UtilAddEditComponent } from './parametrages/utilisateur/util-add-edit/util-add-edit.component';
+import { ClientComponent } from './client/client.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { UtilAddEditComponent } from './parametrages/utilisateur/util-add-edit/u
     SpecialiteComponent,
     SpecAddEditComponent,
     UtilisateurComponent,
-    UtilAddEditComponent
+    UtilAddEditComponent,
+    ClientComponent
  
   ],
   imports: [
