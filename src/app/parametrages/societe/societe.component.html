@@ -1,0 +1,87 @@
+
+ 
+   
+    <span class="example-spacer"></span>
+    <button mat-flat-button color="primary" class="top-right-button" (click)="openAddEditSocForm()">Ajouter societe</button>
+  <div class="main-body">
+  
+    <mat-form-field>
+      <mat-label>Rechercher</mat-label>
+      <input matInput (keyup)="applyFilter($event)" #input>
+    </mat-form-field>
+    
+    <div class="table-container">
+      <table mat-table [dataSource]="societes" matSort>
+    
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let societe"> {{societe.id}} </td>
+        </ng-container>
+    
+        <!-- Progress Column -->
+        <ng-container matColumnDef="raisonSocial">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> RaisonSocial</th>
+  <td mat-cell *matCellDef="let societe">{{ societe.raisonSocial}}</td>
+        </ng-container>
+    
+        <!-- Name Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+          <td mat-cell *matCellDef="let societe"> {{societe.email}} </td>
+        </ng-container>
+    
+        <!-- Fruit Column -->
+        <ng-container matColumnDef="adresse">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Adresse </th>
+          <td mat-cell *matCellDef="let societe"> {{societe.adresse}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="tel">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Tel </th>
+          <td mat-cell *matCellDef="let societe"> {{societe.tel}} </td>
+        </ng-container>
+        <ng-container matColumnDef="mf">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> MF </th>
+          <td mat-cell *matCellDef="let societe"> {{societe.mf}} </td>
+        </ng-container>
+          
+        <ng-container matColumnDef="actions"  >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+          <td mat-cell *matCellDef="let societe">
+            <button mat-icon-button color="primary" (click)="openEditForm(societe)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <div  class="example-button-row">
+  
+            </div>
+            
+  
+            
+          <button mat-icon-button color="warn" (click)="OndeleteSociete(societe.id)" >
+            <mat-icon>delete</mat-icon>
+          </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let societe; columns: displayedColumns;"></tr>
+    
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+      </table>
+    
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    </div>
+  </div>
+  <!--
+      <tr *ngFor="let societe of societes">
+        <td>{{societe.id}}</td>
+        <td>{{societe.raisonSocial}}</td>
+        <td>{{societe.adresse}}</td>
+        <td>{{societe.email}}</td>
+        <td>{{societe.mf}}</td>
+        <td>{{societe.tel}}</td>
+      </tr>-->
+  

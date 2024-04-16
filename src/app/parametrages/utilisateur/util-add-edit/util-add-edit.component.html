@@ -1,0 +1,50 @@
+<div mat-dialog-title></div>
+<h1>Ajouter/Modifier Utilisateur</h1>
+<form [formGroup]="utilForm" (ngSubmit)="onFormSubmit()">
+    <div mat-dialog-content class="content">
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Nom</mat-label>
+                <input matInput type="text" formControlName="nom">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Prénom</mat-label>
+                <input matInput formControlName="prenom">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" placeholder="Ex. test@gmail.com" formControlName="email">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Téléphone</mat-label>
+                <input matInput type="tel" formControlName="tel">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Adresse</mat-label>
+                <input matInput formControlName="adresse">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Login</mat-label>
+                <input matInput formControlName="login">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Mot de passe</mat-label>
+                <input matInput type="password" formControlName="mp">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Rôle</mat-label>
+                <input matInput formControlName="role">
+            </mat-form-field>
+        </div>
+    </div>
+    <div mat-dialog-actions class="action">
+        <button mat-raised-button [mat-dialog-close]="false">Retour</button>
+        <button mat-raised-button color="primary" type="submit">{{data ? 'Modifier' : 'Enregistrer'}}</button>
+    </div>
+</form>

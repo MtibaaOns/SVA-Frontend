@@ -1,0 +1,21 @@
+<div mat-dialog-title></div>
+<h1>Ajouter/Modifier Spécialité</h1>
+<form [formGroup]="specForm" (ngSubmit)="onFormSubmit()"   >
+<div mat-dialog-content class="content">
+    <div class="row">
+        <mat-form-field appearance="outline">
+            <mat-label>codeSpec</mat-label>
+            <input matInput type="text" formControlName="codeSpec">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>libSpec</mat-label>
+            <input matInput formControlName="libSpec">
+        </mat-form-field>
+        </div>
+       
+</div>
+<div mat-dialog-actions class="action">
+    <button mat-raised-button [mat-dialog-close]="false">Retour</button>
+    <button mat-raised-button color="primary" type="submit" >{{data ? 'Modifier':'Enregistrer' }}</button>
+</div>
+</form>
