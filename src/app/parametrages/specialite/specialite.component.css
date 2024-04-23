@@ -5,7 +5,11 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+mat-card{
+  margin: 2%;
+  
 
+}
 /* Style pour les champs de formulaire */
 .mat-form-field {
   width: 100%;
@@ -15,10 +19,9 @@
 /* Style pour le tableau mat-table */
 table.mat-table {
   width: 100%;
-  border-collapse: collapse;
-   border-collapse: collapse;
-  border: 2px solid #ddd; /* Ajout du cadre autour du tableau */
+  border: 2px solid black; /* Ajout du cadre autour du tableau */
 }
+
 
 /* Style pour les cellules du tableau */
 th.mat-header-cell,

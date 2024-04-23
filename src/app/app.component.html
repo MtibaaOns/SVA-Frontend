@@ -61,8 +61,8 @@
         </div>
         <ul class="sub-menu">
             <li><a class="link_name" href="#">Clients</a></li>
-            <li><a href="#">Ajouter client</a></li>
-            <li><a href="#">Liste client</a></li>
+            <li><a href="/ajouter_client">Ajouter client</a></li>
+            <li><a href="/liste_client">Liste client</a></li>
         </ul>
     </li>
     <li>
@@ -75,8 +75,8 @@
         </div>
         <ul class="sub-menu">
             <li><a class="link_name" href="#">Contrats</a></li>
-            <li><a href="#">Ajouter contrat</a></li>
-            <li><a href="#">Liste contrat</a></li>
+            <li><a href="/ajouter_contrat">Ajouter contrat</a></li>
+            <li><a href="/liste_contrat">Liste contrat</a></li>
         </ul>
     </li>
     <li>
@@ -89,22 +89,22 @@
         </div>
         <ul class="sub-menu">
             <li><a class="link_name" href="#">Interventions</a></li>
-            <li><a href="#">Ajouter intervention</a></li>
+            <li><a href="">Ajouter intervention</a></li>
             <li><a href="#">Liste intervention</a></li>
         </ul>
     </li>
     <li>
         <div class="iocn-link">
             <a href="#">
-              <i class='far fa-sticky-note nav__icon'></i>
+                <i class="bi bi-ticket-fill"></i>
                 <span class="link_name">Tickets</span>
             </a>
             <i class='bx bxs-chevron-down arrow' ></i>
         </div>
         <ul class="sub-menu">
-            <li><a class="link_name" href="#">Tickets</a></li>
-            <li><a href="#">Ajouter ticket</a></li>
-            <li><a href="#">Liste ticket</a></li>
+            <li><a class="link_name" href="#">Demande intervention</a></li>
+            <li><a href="/ajouter_demande">Ajouter demande</a></li>
+            <li><a href="/liste_demande">Liste demande</a></li>
         </ul>
     </li>
     <li>
@@ -117,7 +117,7 @@
 
 <section class="home-section">
 
-<div class="home-content">
+<div class="home-content ">
     <i class='bx bx-menu' >
         
         
@@ -126,8 +126,14 @@
         
     </span>
 </div>
-<router-outlet></router-outlet>
+<div class="container mt-4 mb-4 ml-3 mr-3">
+    <router-outlet></router-outlet>
+</div>
+
+
 </section>
+<ng-toast></ng-toast>
+<ng-confirm></ng-confirm>
 
 
 

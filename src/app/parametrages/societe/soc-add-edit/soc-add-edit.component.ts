@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SocieteService } from '../societe.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
-
 @Component({
   selector: 'app-soc-add-edit',
   templateUrl: './soc-add-edit.component.html',

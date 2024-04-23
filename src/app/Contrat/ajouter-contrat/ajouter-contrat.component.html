@@ -1,0 +1,68 @@
+
+<mat-card>
+    <mat-toolbar color="primary">
+        <h1>Formulaire contrat</h1>
+        <span class="exemple-spacer"></span>
+        <button routerLink="/liste_contrat" mat-raised-button color="accent">
+          liste contrat
+        </button>
+      </mat-toolbar>
+    <mat-card-content>
+        <div class="contrat-form m-3 p-4">
+            <form [formGroup]="contratForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <mat-form-field appearance="fill">
+                            <mat-label>NumContrat</mat-label>
+                            <input matInput type="number" formControlName="numcontrat">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field appearance="fill">
+                            <mat-label>nbInterMois</mat-label>
+                            <input matInput type="number" formControlName="nbInterMois">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field appearance="fill">
+                            <mat-label>nbInterAnnee</mat-label>
+                            <input matInput type="number" formControlName="nbInterAnnee">
+                        </mat-form-field>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <mat-form-field appearance="fill">
+                            <mat-label>dateDebut</mat-label>
+                            <input matInput [matDatepicker]="picker1" placeholder="dateDebut" formControlName="dateDebut">
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                          </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field appearance="fill">
+                            <mat-label>dateFin</mat-label>
+                            <input matInput [matDatepicker]="picker2" placeholder="dateFin" formControlName="dateFin">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field appearance="fill">
+                                <mat-label>mtForfaitaire</mat-label>
+                                <input matInput type="number" formControlName="mtForfaitaire">
+                            </mat-form-field>
+                        </div>
+                 
+                </div>
+            </form>
+            </div>
+    </mat-card-content>
+    <mat-card-footer>
+        <div style="margin:2%;text-align: right;">
+          
+            <button *ngIf="!isUpdateActive" (click)="onFormSubmit()" mat-raised-button color="accent">Enregistrer</button>
+            <button *ngIf="isUpdateActive" (click)="modifier()" mat-raised-button color="accent">Modifier</button>
+        </div>
+    </mat-card-footer>
+
+</mat-card>

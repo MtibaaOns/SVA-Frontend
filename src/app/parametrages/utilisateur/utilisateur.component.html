@@ -1,10 +1,18 @@
+<div class="logo text-center">
+  <img  width="100px" src="assets/img/user.png" alt="">
+</div>
 <span class="example-spacer"></span>
-<button mat-flat-button color="primary" class="top-right-button" (click)="openAddEditUtilForm()">Ajouter utilisateur</button>
-  <div class="main-body">
-    <mat-form-field>
-      <mat-label>Rechercher</mat-label>
-      <input matInput (keyup)="applyFilter($event)" #input>
-    </mat-form-field>
+<button mat-flat-button color="primary" class="top-right-button" (click)="openAddEditUtilForm()">Ajouter utillisateur</button>
+
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+
+<mat-card>
+<div class="main-body">
+<mat-form-field>
+  <mat-label>Rechercher</mat-label>
+  <input matInput (keyup)="applyFilter($event)" #input>
+</mat-form-field>
     <div class="table-container">
       <table mat-table [dataSource]="utilisateurs" matSort>
         <!-- ID Column -->

@@ -1,13 +1,16 @@
 <div mat-dialog-title></div>
+<mat-toolbar color="primary">
+  
 <h1>Ajouter/Modifier Spécialité</h1>
+</mat-toolbar>
 <form [formGroup]="specForm" (ngSubmit)="onFormSubmit()"   >
 <div mat-dialog-content class="content">
     <div class="row">
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="fill">
             <mat-label>codeSpec</mat-label>
-            <input matInput type="text" formControlName="codeSpec">
+            <input matInput type="number" formControlName="codeSpec">
         </mat-form-field>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="fill">
             <mat-label>libSpec</mat-label>
             <input matInput formControlName="libSpec">
         </mat-form-field>

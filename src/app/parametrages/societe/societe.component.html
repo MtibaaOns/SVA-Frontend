@@ -1,16 +1,22 @@
 
  
-   
+   <div class="logo text-center">
+    <img  width="100px" src="assets/img/societe.png" alt="">
+  </div>
     <span class="example-spacer"></span>
     <button mat-flat-button color="primary" class="top-right-button" (click)="openAddEditSocForm()">Ajouter societe</button>
-  <div class="main-body">
-  
+ 
+      <div class="row justify-content-center">
+        <div class="col-md-10">
+    
+    <mat-card>
+    <div class="main-body">
     <mat-form-field>
       <mat-label>Rechercher</mat-label>
       <input matInput (keyup)="applyFilter($event)" #input>
     </mat-form-field>
-    
-    <div class="table-container">
+ 
+    <div class="table-container" class="intervention-form m-4 p-4">
       <table mat-table [dataSource]="societes" matSort>
     
         <!-- ID Column -->
@@ -74,14 +80,11 @@
     
       <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
     </div>
+   
   </div>
-  <!--
-      <tr *ngFor="let societe of societes">
-        <td>{{societe.id}}</td>
-        <td>{{societe.raisonSocial}}</td>
-        <td>{{societe.adresse}}</td>
-        <td>{{societe.email}}</td>
-        <td>{{societe.mf}}</td>
-        <td>{{societe.tel}}</td>
-      </tr>-->
+</mat-card>
+</div>
+</div>
+
+
   

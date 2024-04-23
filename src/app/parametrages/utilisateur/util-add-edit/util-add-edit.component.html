@@ -1,45 +1,59 @@
+
 <div mat-dialog-title></div>
+<mat-toolbar color="primary">
+ 
 <h1>Ajouter/Modifier Utilisateur</h1>
+</mat-toolbar>
 <form [formGroup]="utilForm" (ngSubmit)="onFormSubmit()">
     <div mat-dialog-content class="content">
         <div class="row">
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="fill">
                 <mat-label>Nom</mat-label>
                 <input matInput type="text" formControlName="nom">
             </mat-form-field>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="fill">
                 <mat-label>Prénom</mat-label>
                 <input matInput formControlName="prenom">
             </mat-form-field>
         </div>
         <div class="row">
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="fill">
                 <mat-label>Email</mat-label>
                 <input matInput type="email" placeholder="Ex. test@gmail.com" formControlName="email">
             </mat-form-field>
-            <mat-form-field appearance="outline">
+
+            <mat-form-field class="example-full-width">
                 <mat-label>Téléphone</mat-label>
-                <input matInput type="tel" formControlName="tel">
-            </mat-form-field>
+                <span matTextPrefix>+216 &nbsp;</span>
+                <input type="tel" matInput placeholder="55-555-12" formControlName="tel">
+                <mat-icon matSuffix>mode_edit</mat-icon>
+              </mat-form-field>
         </div>
         <div class="row">
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="fill">
                 <mat-label>Adresse</mat-label>
                 <input matInput formControlName="adresse">
             </mat-form-field>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="fill">
                 <mat-label>Login</mat-label>
                 <input matInput formControlName="login">
             </mat-form-field>
         </div>
         <div class="row">
-            <mat-form-field appearance="outline">
-                <mat-label>Mot de passe</mat-label>
-                <input matInput type="password" formControlName="mp">
-            </mat-form-field>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="fill">
+                <mat-label>Enter your password</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" formControlName="mp">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+              </mat-form-field>
+            <mat-form-field appearance="fill">
                 <mat-label>Rôle</mat-label>
-                <input matInput formControlName="role">
+                <input [matAutocomplete]="auto" matInput formControlName="role">
+                <mat-autocomplete autoActiveFirstOption  #auto="matAutocomplete">
+                <mat-option *ngFor="let item of cloture " [value]="item">{{item}}
+                </mat-option>
+               </mat-autocomplete>
             </mat-form-field>
         </div>
     </div>

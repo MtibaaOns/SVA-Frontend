@@ -24,7 +24,27 @@ import { SpecialiteComponent } from './parametrages/specialite/specialite.compon
 import { SpecAddEditComponent } from './parametrages/specialite/spec-add-edit/spec-add-edit.component';
 import { UtilisateurComponent } from './parametrages/utilisateur/utilisateur.component';
 import { UtilAddEditComponent } from './parametrages/utilisateur/util-add-edit/util-add-edit.component';
-import { ClientComponent } from './client/client.component';
+import { ListeClientComponent } from './liste-client/liste-client.component';
+import { AjouterClientComponent } from './liste-client/ajouter-client/ajouter-client.component';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
+import { NgToastModule } from 'ng-angular-popup';
+import { NgConfirmModule } from 'ng-confirm-box';
+
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {provideNativeDateAdapter} from '@angular/material/core';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { AjouterContratComponent } from './Contrat/ajouter-contrat/ajouter-contrat.component';
+import { ListeContratComponent } from './Contrat/liste-contrat/liste-contrat.component';
+import { AjouterDemandeComponent } from './Demande_intervention/ajouter-demande/ajouter-demande.component';
+import { ListeDemandeComponent } from './Demande_intervention/liste-demande/liste-demande.component';
+import { AjouterInterventionComponent } from './Intervention/ajouter-intervention/ajouter-intervention.component';
+import { ListeInterventionComponent } from './Intervention/liste-intervention/liste-intervention.component';
+
+
+
+
 
 @NgModule({
   declarations: [
@@ -37,8 +57,17 @@ import { ClientComponent } from './client/client.component';
     SpecAddEditComponent,
     UtilisateurComponent,
     UtilAddEditComponent,
-    ClientComponent
+    ListeClientComponent,
+    AjouterClientComponent,
  
+    AjouterContratComponent,
+    ListeContratComponent,
+    AjouterDemandeComponent,
+    ListeDemandeComponent,
+    AjouterInterventionComponent,
+    ListeInterventionComponent,
+
+  
   ],
   imports: [
     BrowserModule,
@@ -55,12 +84,22 @@ import { ClientComponent } from './client/client.component';
     HttpClientModule,
     MatIconModule,
     MatToolbarModule,
-    MatCardModule
+    MatCardModule,
+    NgToastModule,
+    NgConfirmModule,
+    MatDatepickerModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    NgxMaterialTimepickerModule,
     
+     // Imported here
   ],
   providers: [
+    { provide: MatDialogRef, useValue: {} },
+    { provide: MAT_DIALOG_DATA, useValue: {} },
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideNativeDateAdapter()
   ],
   bootstrap: [AppComponent]
 })

@@ -1,6 +1,6 @@
 
 import { Component, Inject, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UtilisateurService } from '../utilisateur.service';
 import { Utilisateur } from '../utilisateur';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -13,7 +13,10 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrl: './util-add-edit.component.css'
 })
 export class UtilAddEditComponent implements OnInit  {
+  cloture=["Admin","Tech"]
+  hide = true;
   utilForm: FormGroup
+  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
   constructor 
   (  private _fb: FormBuilder,
     private utilisateurService: UtilisateurService,
@@ -35,13 +38,14 @@ export class UtilAddEditComponent implements OnInit  {
     console.log(this.data);
    this.utilForm.patchValue(this.data)
   }
+  
   onFormSubmit() {
     if (this.utilForm.valid) {
       if (this.data) {
         // Ajouter 'raisonSocial' comme troisième paramètre
         this.utilisateurService.updateUtilisateur(this.utilForm.value, this.data.id, this.utilForm.value.nom,this.utilForm.value.prenom,this.utilForm.value.adresse,this.utilForm.value.email,this.utilForm.value.tel,this.utilForm.value.login,this.utilForm.value.mp,this.utilForm.value.role).subscribe({
           next: (val: any) => {
-            alert('Société est modifiée avec succès');
+            alert('Utilisateur est modifiée avec succès');
             this._dialogRef.close(true);
           },
           error: (err: any) => {
@@ -51,7 +55,7 @@ export class UtilAddEditComponent implements OnInit  {
       } else {
         this.utilisateurService.addUtilisateur(this.utilForm.value).subscribe({
           next: (val: any) => {
-            alert('Société est ajoutée avec succès');
+            alert('Utilisateur est ajoutée avec succès');
             this._dialogRef.close(true);
           },
           error: (err: any) => {
