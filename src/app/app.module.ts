@@ -42,7 +42,11 @@ import { ListeDemandeComponent } from './Demande_intervention/liste-demande/list
 import { AjouterInterventionComponent } from './Intervention/ajouter-intervention/ajouter-intervention.component';
 import { ListeInterventionComponent } from './Intervention/liste-intervention/liste-intervention.component';
 
-
+import {MatSelectModule} from '@angular/material/select';
+import { AjouterCategoriePieceComponent } from './CategoriePiece/ajouter-categorie-piece/ajouter-categorie-piece.component';
+import { ListeCategoriePieceComponent } from './CategoriePiece/liste-categorie-piece/liste-categorie-piece.component';
+import { ListeDepotComponent } from './Depot/liste-depot/liste-depot.component';
+import { AjouterDepotComponent } from './Depot/ajouter-depot/ajouter-depot.component';
 
 
 
@@ -66,6 +70,10 @@ import { ListeInterventionComponent } from './Intervention/liste-intervention/li
     ListeDemandeComponent,
     AjouterInterventionComponent,
     ListeInterventionComponent,
+    AjouterCategoriePieceComponent,
+    ListeCategoriePieceComponent,
+    ListeDepotComponent,
+    AjouterDepotComponent,
 
   
   ],
@@ -91,6 +99,7 @@ import { ListeInterventionComponent } from './Intervention/liste-intervention/li
     MatAutocompleteModule,
     ReactiveFormsModule,
     NgxMaterialTimepickerModule,
+    MatSelectModule
     
      // Imported here
   ],

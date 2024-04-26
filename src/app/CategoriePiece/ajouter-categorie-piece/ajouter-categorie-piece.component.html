@@ -1,0 +1,29 @@
+<mat-card>
+    <mat-toolbar color="primary">
+      <h1>Formulaire catégorie de pièce</h1>
+      <span class="exemple-spacer"></span>
+      <button routerLink="/liste_categorie_piece" mat-raised-button color="accent">
+        Liste des catégories de pièces
+      </button>
+    </mat-toolbar>
+    <mat-card-content>
+      <div class="categorie-piece-form m-3 p-4">
+        <form [formGroup]="categoriePieceForm">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="fill">
+                <mat-label>desCategorie</mat-label>
+                <input matInput formControlName="desCategorie">
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+    </mat-card-content>
+    <mat-card-footer>
+      <div style="margin:2%;text-align: right;">
+        <button *ngIf="!isUpdateActive" (click)="onFormSubmit()" mat-raised-button color="accent">Enregistrer</button>
+        <button *ngIf="isUpdateActive" (click)="modifier()" mat-raised-button color="accent">Modifier</button>
+      </div>
+    </mat-card-footer>
+  </mat-card>

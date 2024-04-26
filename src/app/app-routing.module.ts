@@ -10,6 +10,12 @@ import { AjouterContratComponent } from './Contrat/ajouter-contrat/ajouter-contr
 import { ListeContratComponent } from './Contrat/liste-contrat/liste-contrat.component';
 import { AjouterDemandeComponent } from './Demande_intervention/ajouter-demande/ajouter-demande.component';
 import { ListeDemandeComponent } from './Demande_intervention/liste-demande/liste-demande.component';
+import { AjouterInterventionComponent } from './Intervention/ajouter-intervention/ajouter-intervention.component';
+import { ListeInterventionComponent } from './Intervention/liste-intervention/liste-intervention.component';
+import { AjouterCategoriePieceComponent } from './CategoriePiece/ajouter-categorie-piece/ajouter-categorie-piece.component';
+import { ListeCategoriePieceComponent } from './CategoriePiece/liste-categorie-piece/liste-categorie-piece.component';
+import { AjouterDepotComponent } from './Depot/ajouter-depot/ajouter-depot.component';
+import { ListeDepotComponent } from './Depot/liste-depot/liste-depot.component';
 
 const routes: Routes = [
  
@@ -19,6 +25,7 @@ const routes: Routes = [
   {path:"utilisateur",component:UtilisateurComponent},
   {path:"ajouter_client",component:AjouterClientComponent},
   {path:'liste_client', component:ListeClientComponent},
+  {path:"categorie_piece",component:ListeCategoriePieceComponent},
 
 
   { path: "update_client/:id", component: AjouterClientComponent },
@@ -28,6 +35,28 @@ const routes: Routes = [
   {path:"ajouter_demande",component:AjouterDemandeComponent},
   {path:"liste_demande",component:ListeDemandeComponent},
   {path: "update_demande/:numDem", component: AjouterDemandeComponent },
+
+  {path:"ajouter_intervention",component:AjouterInterventionComponent},
+  {path:"liste_intervention",component:ListeInterventionComponent},
+  {path: "update_intervention/:codeinterv", component: AjouterInterventionComponent },
+
+  {path:"ajouter_categorie_piece",component:AjouterCategoriePieceComponent},
+  {path:"liste_categorie_piece",component:ListeCategoriePieceComponent},
+  {path: "update_categorie_piece/:id", component: AjouterCategoriePieceComponent },
+
+
+  {path:"ajouter_depot",component:AjouterDepotComponent},
+  {path:"liste_depot",component:ListeDepotComponent},
+  {path: "update_depot/:id", component: AjouterDepotComponent }
+
+
+
+
+
+
+
+
+
 
 ];
 

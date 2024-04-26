@@ -58,15 +58,16 @@
             <button mat-icon-button color="primary" (click)="openEditForm(societe)">
               <mat-icon>edit</mat-icon>
             </button>
+            <button mat-icon-button color="warn" (click)="OndeleteSociete(societe.id)" >
+              <mat-icon>delete</mat-icon>
+            </button>
             <div  class="example-button-row">
   
             </div>
             
   
             
-          <button mat-icon-button color="warn" (click)="OndeleteSociete(societe.id)" >
-            <mat-icon>delete</mat-icon>
-          </button>
+        
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -1,1 +1,72 @@
-<p>ajouter-intervention works!</p>
+
+<mat-card>
+    <mat-toolbar color="primary">
+        <h1>Formulaire intervention</h1>
+        <span class="exemple-spacer"></span>
+        <button routerLink="/liste_intervention" mat-raised-button color="accent">
+          liste intervention
+        </button>
+      </mat-toolbar>
+    <mat-card-content>
+        <div class="contrat-form m-3 p-4">
+            <form [formGroup]="interventionForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <mat-form-field appearance="fill">
+                            <mat-label>codeinterv</mat-label>
+                            <input matInput type="number" formControlName="codeinterv">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field appearance="fill">
+                            <mat-label>dureeinterv</mat-label>
+                            <input matInput type="number" formControlName="dureeinterv">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field appearance="fill">
+                            <mat-label>observationinterv</mat-label>
+                            <input matInput type="text" formControlName="observationinterv">
+                        </mat-form-field>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <mat-form-field appearance="fill">
+                            <mat-label>datedebinterv</mat-label>
+                            <input matInput [matDatepicker]="picker1" placeholder="datedebinterv" formControlName="datedebinterv">
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                          </mat-form-field>
+                    </div>
+                      <div class="col-md-6">
+                          <mat-form-field appearance="fill">
+                            <mat-label>datefininterv</mat-label>
+                            <input matInput [matDatepicker]="picker2" placeholder="datefininterv" formControlName="datefininterv">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <mat-label>clotureinterv</mat-label>
+                                <mat-select disableRipple formControlName="clotureinterv">
+                                  <mat-option value="Oui">Oui</mat-option>
+                                  <mat-option value="Non">Non</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                        </div>
+                 
+                </div>
+            </form>
+            </div>
+    </mat-card-content>
+    <mat-card-footer>
+        <div style="margin:2%;text-align: right;">
+          
+            <button *ngIf="!isUpdateActive" (click)="onFormSubmit()" mat-raised-button color="accent">Enregistrer</button>
+            <button *ngIf="isUpdateActive" (click)="modifier()" mat-raised-button color="accent">Modifier</button>
+        </div>
+    </mat-card-footer>
+
+</mat-card>
+
