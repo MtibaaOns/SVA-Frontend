@@ -17,7 +17,7 @@ export class ListeDemandeComponent implements OnInit {
   public demandes! : Demande[];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  displayedColumns: string[] = [ 'numDem', 'statut','titre','priorite','dateDeb', 'dateFin','description','actions'];
+  displayedColumns: string[] = [ 'code', 'statut','titre','priorite','dateDeb', 'dateFin','description','actions'];
   constructor(
     private demandeService : DemIntervService,
     private route: Router) { }

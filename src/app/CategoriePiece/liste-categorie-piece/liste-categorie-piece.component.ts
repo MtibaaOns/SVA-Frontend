@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CategoriePiece } from '../categorie-piece.model';
+import { CategoriePieceService } from '../categorie-piece.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { AjouterCategoriePieceComponent } from '../ajouter-categorie-piece/ajouter-categorie-piece.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { CategoriePieceService } from '../categorie-piece.service';
 
 @Component({
   selector: 'app-liste-categorie-piece',
@@ -13,57 +14,79 @@ import { CategoriePieceService } from '../categorie-piece.service';
   styleUrl: './liste-categorie-piece.component.css'
 })
 export class ListeCategoriePieceComponent implements OnInit {
-  public dataSource!: MatTableDataSource<CategoriePiece>;
-  public categoriesPieces!: CategoriePiece[];
+  displayedColumns: string[] = ['codeCategorie', 'desCategorie', 'actions'];
+  public categoriesPiece: MatTableDataSource<CategoriePiece> = new MatTableDataSource<CategoriePiece>();
 
-  displayedColumns: string[] = ['id','codeCategorie','desCategorie', 'actions'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private categoriePieceService: CategoriePieceService, private router: Router) { }
+  constructor(private dialog: MatDialog, private categoriePieceService: CategoriePieceService) {}
 
-  ngOnInit() {
-    this.getAllCategoriesPieces();
+  ngOnInit(): void {
+    this.getAllCategoriesPiece();
   }
 
-  getAllCategoriesPieces() {
-    this.categoriePieceService.getAllCategoriesPieces
-    ()
-      .subscribe({
-        next: (res) => {
-          this.categoriesPieces = res;
-          this.dataSource = new MatTableDataSource(this.categoriesPieces);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        },
-        error: (err) => {
-          console.log(err);
+  openAddEditCategoriePieceForm() {
+    const dialogRef = this.dialog.open(AjouterCategoriePieceComponent);
+    dialogRef.afterClosed().subscribe({
+      next: (val) => {
+        if (val) {
+          this.getAllCategoriesPiece();
         }
-      });
+      }
+    });
+  }
+
+  getAllCategoriesPiece() {
+    this.categoriePieceService.getAllCategoriesPieces().subscribe({
+      next: (response: CategoriePiece[]) => {
+        this.categoriesPiece = new MatTableDataSource<CategoriePiece>(response);
+        this.categoriesPiece.sort = this.sort;
+        this.categoriesPiece.paginator = this.paginator;
+
+        console.log(this.categoriesPiece);
+      },
+      error: (error: any) => {
+        alert(error.message);
+      }
+    });
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.categoriesPiece.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+    if (this.categoriesPiece.paginator) {
+      this.categoriesPiece.paginator.firstPage();
     }
   }
 
-  updateCategoriePiece(id: number) {
-    this.router.navigate(['update_categorie_piece', id]);
-  }
-
-  deleteCategoriePiece(id: number): void {
+  onDeleteCategoriePiece(id: number): void {
     this.categoriePieceService.deleteCategoriePiece(id).subscribe({
       next: () => {
         console.log("Catégorie de pièce supprimée avec succès.");
-        this.getAllCategoriesPieces();
+        this.getAllCategoriesPiece();
       },
       error: (error: HttpErrorResponse) => {
         alert(error.message);
       }
     });
   }
-}
+
+  openEditForm(categoriePiece: CategoriePiece): void {
+    const dialogRef = this.dialog.open(AjouterCategoriePieceComponent, {
+      data: categoriePiece
+    });
+
+    this.categoriePieceService.updateCategoriePiece(categoriePiece, categoriePiece.id, categoriePiece.desCategorie);
+    this.getAllCategoriesPiece();
+
+    dialogRef.afterClosed().subscribe({
+      next: (val) => {
+        if (val) {
+          this.getAllCategoriesPiece();
+        }
+      }
+    });
+  }
+  }

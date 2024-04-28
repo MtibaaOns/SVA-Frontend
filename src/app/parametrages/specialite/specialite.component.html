@@ -17,13 +17,13 @@
     <div class="table-container">
       <table mat-table [dataSource]="specialites" matSort>
      
-        <ng-container matColumnDef="codeSpec">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>CodeSpec</th>
-          <td mat-cell *matCellDef="let specialite">{{ specialite.codeSpec }}</td>
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
+          <td mat-cell *matCellDef="let specialite">{{ specialite.code }}</td>
         </ng-container>
 
         <ng-container matColumnDef="libSpec">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>libSpec</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Libellé</th>
           <td mat-cell *matCellDef="let specialite">{{ specialite.libSpec }}</td>
         </ng-container>
         <ng-container matColumnDef="actions">

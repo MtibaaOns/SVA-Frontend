@@ -1,33 +1,30 @@
-import { Component, ViewChild } from '@angular/core';
-import { Intervention } from '../interventions.model';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Intervention } from '../interventions.model'; // Supposons que vous ayez défini une interface Intervention
+import { HttpErrorResponse } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { InterventionsService } from '../interventions.service';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
+import { InterventionsService } from '../interventions.service';// Supposons que vous ayez défini un service InterventionService
 
 @Component({
-  selector: 'app-liste-intervention',
-  templateUrl: './liste-intervention.component.html',
-  styleUrl: './liste-intervention.component.css'
+  selector: 'app-liste-interventions',
+  templateUrl: './liste-interventions.component.html',
+  styleUrls: ['./liste-interventions.component.css']
 })
-export class ListeInterventionComponent {
-  public dataSource!: MatTableDataSource<Intervention>
+export class ListeInterventionsComponent implements OnInit {
+  public dataSource!: MatTableDataSource<Intervention>;
   public interventions!: Intervention[];
 
-  displayedColumns: string[] = ['codeinterv', 'datedebinterv', 'datefininterv', 'dureeinterv', 'observationinterv', 'clotureinterv','actions'];
+  displayedColumns: string[] = [ 'code', 'dateDeb', 'dateFin', 'duree', 'observation', 'cloturer', 'MontantHT', 'facturer', 'cause', 'actions'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private interventionService:InterventionsService, private route: Router) { }
-
-
+  constructor(private interventionService: InterventionsService, private route: Router) {}
 
   ngOnInit() {
     this.getAllInterventions();
   }
-
 
   getAllInterventions() {
     this.interventionService.getAllInterventions()
@@ -41,7 +38,7 @@ export class ListeInterventionComponent {
         error: (err) => {
           console.log(err);
         }
-      })
+      });
   }
 
   applyFilter(event: Event) {
@@ -53,13 +50,12 @@ export class ListeInterventionComponent {
     }
   }
 
-  modifier(codeinterv: number) {
-    this.route.navigate(['update_intervention', codeinterv]);
+  modifier(id: number) {
+    this.route.navigate(['update_intervention', id]);
   }
 
-
-  OndeleteInterventions(codeinterv: number): void {
-    this.interventionService.deleteIntervention(codeinterv).subscribe({
+  onDeleteIntervention(id: number): void {
+    this.interventionService.deleteIntervention(id).subscribe({
       next: () => {
         console.log("Intervention supprimée avec succès.");
         this.getAllInterventions();
@@ -69,20 +65,4 @@ export class ListeInterventionComponent {
       }
     });
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

@@ -17,7 +17,7 @@ export class ListeContratComponent implements OnInit{
   public contrats!: Contrat[];
 
 
-  displayedColumns: string[] = ['numcontrat', 'dateDebut', 'dateFin', 'nbInterMois', 'nbInterAnnee', 'mtForfaitaire','actions'];
+  displayedColumns: string[] = ['code', 'dateDebut', 'dateFin', 'nbInterMois', 'nbInterAnnee', 'mtForfaitaire','actions'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private contratService : ContratService, private route: Router) { }

@@ -1,13 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { DepotService } from '../depot.service';
-import { NgToastService } from 'ng-angular-popup';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Depot } from '../depot.model';
-
-const today = new Date();
-const month = today.getMonth();
-const year = today.getFullYear();
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DepotService } from '../depot.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-ajouter-depot',
@@ -15,90 +12,67 @@ const year = today.getFullYear();
   styleUrls: ['./ajouter-depot.component.css']
 })
 export class AjouterDepotComponent implements OnInit {
-  campaignOne = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
-  });
-  campaignTwo = new FormGroup({
-    start: new FormControl(new Date(year, month, 15)),
-    end: new FormControl(new Date(year, month, 19)),
-  });
-  depotForm!: FormGroup;
-  public depotIdUpdate!: number;
-  public isUpdateActive: boolean = false;
+  depotForm: FormGroup;
+  lastCodeNumber: number = 0;
 
   constructor(
-    private router: Router,
-    private _fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private depotService: DepotService,
-    private toastService: NgToastService,
-    private activatedRoute: ActivatedRoute
-  ) {}
+    private dialogRef: MatDialogRef<AjouterDepotComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Depot
+  ) {
+    this.depotForm = this.formBuilder.group({
+      codeDep: '', // Champ vide initialement
+      libDep: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
-    this.depotForm = this._fb.group({
-      id: [''],
-      codeDep: [''],
-      libDep: [''],
-    });
+    if (this.data) {
+      this.depotForm.patchValue(this.data);
+    } else {
+      this.generateCodeDep();
+    }
+  }
 
-    this.activatedRoute.params.subscribe(val => {
-      this.depotIdUpdate = val['id'];
-      if (this.depotIdUpdate) {
-        this.isUpdateActive = true;
-        this.depotService.getDepotById(this.depotIdUpdate).subscribe({
-          next: (depot) => {
-            this.fillFormToUpdate(depot);
+  generateCodeDep(): void {
+    this.depotService.getAllDepots().subscribe((depots) => {
+      const lastDepot = depots[depots.length - 1];
+      const lastCode = lastDepot ? lastDepot.codeDep : 'code-00';
+      const lastNumber = parseInt(lastCode.split('-')[1]);
+      this.lastCodeNumber = lastNumber;
+      const newCode = `code-${(this.lastCodeNumber + 1).toString().padStart(2, '0')}`;
+      this.depotForm.patchValue({ codeDep: newCode });
+    });
+  }
+
+  onFormSubmit(): void {
+    if (this.depotForm.valid) {
+      if (this.data) {
+        this.depotService.updateDepot(
+          this.data,
+          this.data.id,
+          this.depotForm.value.libDep
+        ).subscribe({
+          next: () => {
+            alert('Dépôt modifié avec succès');
+            this.dialogRef.close(true);
           },
           error: (err) => {
-            console.log(err);
+            console.error(err);
           }
         });
       } else {
-        this.generateCodeDep();
+        this.depotService.addDepot(this.depotForm.value).subscribe({
+          next: () => {
+            alert('Dépôt ajouté avec succès');
+            this.dialogRef.close(true);
+          },
+          error: (err) => {
+            console.error(err);
+          }
+        });
       }
-    });
-  }
-
-  generateCodeDep() {
-    this.depotService.getAllDepots().subscribe((depots) => {
-      const lastDepot = depots[depots.length - 1];
-      const lastCodeDep = lastDepot ? lastDepot.codeDep : 'dep-00';
-      const lastNumber = parseInt(lastCodeDep.split('-')[1]);
-      const newCodeDep = `dep-${(lastNumber + 1).toString().padStart(2, '0')}`;
-      this.depotForm.patchValue({ codeDep: newCodeDep });
-    });
-  }
-
-  onFormSubmit() {
-    this.depotService.addDepot(this.depotForm.value).subscribe({
-      next: (res) => {
-        this.toastService.success({ detail: "Succès", summary: "Dépôt ajouté", duration: 3000 });
-        this.depotForm.reset();
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    });
-  }
- 
-  modifier() {
-    const { id, codeDep, libDep } = this.depotForm.value;
-    const depot: Depot = { id, codeDep, libDep };
-  
-    this.depotService.updateDepot(depot,id,libDep)
-      .subscribe(res => {
-        this.toastService.success({ detail: 'SUCCESS', summary: 'Les détails du dépôt ont été mis à jour avec succès', duration: 3000 });
-        this.router.navigate(['liste_depot']);
-        this.depotForm.reset();
-      });
-  }
-
-  fillFormToUpdate(depot: Depot) {
-    this.depotForm.patchValue({
-      id: depot.id,
-      codeDep: depot.codeDep,
-      libDep: depot.libDep,
-    });
+    }
   }
 }

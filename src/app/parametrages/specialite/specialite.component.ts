@@ -16,7 +16,7 @@ import {MatTableDataSource} from '@angular/material/table';
 export class SpecialiteComponent implements OnInit {
 
   //specialite
-  displayedColumns: string[] = [ 'codeSpec', 'libSpec','actions'];
+  displayedColumns: string[] = [ 'code', 'libSpec','actions'];
   public specialites: MatTableDataSource<Specialite> = new MatTableDataSource<Specialite>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

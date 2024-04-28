@@ -15,7 +15,7 @@ export class ListeClientComponent implements OnInit {
   public clients!: Client[];
   dataSource!: MatTableDataSource<Client>;
 
-  displayedColumns: string[] = ['id', 'nom', 'prenom', 'email', 'raisonSocial', 'adresse', 'mf','actions'];
+  displayedColumns: string[] = [ 'nom', 'prenom', 'email', 'raisonSocial', 'adresse', 'mf','actions'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;

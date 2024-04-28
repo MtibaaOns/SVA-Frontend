@@ -48,6 +48,12 @@
             <li><a href="/societe">Société</a></li>
             <li><a href="utilisateur">Utilisateur</a></li>
             <li><a href="/specialite">Spécialité</a></li>
+            <li><a href="/piece_rechange">Pièce de rechange</a></li>
+            <li><a href="/categorie_piece">Catégorie pièce de rechange</a></li>
+            <li><a href="/depot">Depôt</a></li>
+            <li><a href="/cause">Cause</a></li>
+
+
           
         </ul>
     </li>
@@ -89,8 +95,8 @@
         </div>
         <ul class="sub-menu">
             <li><a class="link_name" href="#">Interventions</a></li>
-            <li><a href="ajouter_intervention">Ajouter intervention</a></li>
-            <li><a href="liste_intervention">Liste intervention</a></li>
+            <li><a href="ajouter_interventions">Ajouter intervention</a></li>
+            <li><a href="liste_interventions">Liste intervention</a></li>
         </ul>
     </li>
     <li>
@@ -107,53 +113,6 @@
             <li><a href="/liste_demande">Liste demande</a></li>
         </ul>
     </li>
-
-    <li>
-        <div class="iocn-link">
-            <a href="#">
-                <i class="bi bi-tools"></i>
-                <span class="link_name">CategoriePiece</span>
-            </a>
-            <i class='bx bxs-chevron-down arrow' ></i>
-        </div>
-        <ul class="sub-menu">
-            <li><a class="link_name" href="#">CategoriePiece</a></li>
-            <li><a href="/ajouter_categorie_piece">Ajouter CategoriePiece</a></li>
-            <li><a href="/liste_categorie_piece">Liste CategoriePiece</a></li>
-        </ul>
-    </li>
-    <li>
-        <div class="iocn-link">
-            <a href="#">
-                <i class="bi bi-archive"></i>
-                <span class="link_name">Depot</span>
-            </a>
-            <i class='bx bxs-chevron-down arrow' ></i>
-        </div>
-        <ul class="sub-menu">
-            <li><a class="link_name" href="#">Depot</a></li>
-            <li><a href="/ajouter_depot">Ajouter depot</a></li>
-            <li><a href="/liste_depot">Liste depot</a></li>
-        </ul>
-    </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <li>
         <div class="profile-details">  
             <i class='bx bx-log-out' ></i>
@@ -161,13 +120,10 @@
     </li>
 </ul>
 </div>
-
 <section class="home-section">
 
 <div class="home-content ">
-    <i class='bx bx-menu' >
-        
-        
+    <i class='bx bx-menu' >   
     </i>
     <span class="text">
         
@@ -176,8 +132,6 @@
 <div class="container mt-4 mb-4 ml-3 mr-3">
     <router-outlet></router-outlet>
 </div>
-
-
 </section>
 <ng-toast></ng-toast>
 <ng-confirm></ng-confirm>

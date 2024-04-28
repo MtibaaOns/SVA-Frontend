@@ -16,9 +16,9 @@
     <table mat-table [dataSource]="dataSource" matSort>
 
     <!-- ID Column -->
-    <ng-container matColumnDef="numDem">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> NumDem </th>
-        <td mat-cell *matCellDef="let demande"> {{demande.numDem}} </td>
+    <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
+        <td mat-cell *matCellDef="let demande"> {{demande.code}} </td>
       </ng-container>
   
       <ng-container matColumnDef="statut">

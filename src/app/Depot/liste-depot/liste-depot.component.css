@@ -1,6 +1,88 @@
+/* Style pour le conteneur principal */
+.mat-elevation-z8 {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 mat-card{
-    margin: 2%;
-    
+  margin: 2%;
   
-  }
-  
+
+}
+/* Style pour les champs de formulaire */
+.mat-form-field {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+/* Style pour le tableau mat-table */
+table.mat-table {
+  width: 100%;
+  border: 2px solid black; /* Ajout du cadre autour du tableau */
+}
+
+
+/* Style pour les cellules du tableau */
+th.mat-header-cell,
+td.mat-cell {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Style pour l'en-tête du tableau */
+tr.mat-header-row {
+  background-color: #f0f0f0;
+}
+
+/* Style pour les lignes de données du tableau */
+tr.mat-row {
+  background-color: #fff;
+}
+
+/* Style pour les lignes du tableau qui n'ont pas de données */
+tr.mat-row.mat-no-data-row {
+  font-style: italic;
+  color: #888;
+}
+
+/* Style pour la pagination */
+.mat-paginator {
+  margin-top: 20px;
+}
+
+/* Style pour le message de pas de données filtrées */
+.mat-row.mat-no-data-row .mat-cell {
+  text-align: center;
+  font-style: italic;
+  color: #888;
+}
+
+/* Style pour le bouton en haut à droite */
+.top-right-button {
+  position: absolute;
+  top: 25px;
+  right: 70px;
+  width: 200px; /* Largeur du bouton */
+  height: 50px; /* Hauteur du bouton */
+}
+
+/* Style pour le conteneur de boutons */
+.button-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style pour les boutons dans le conteneur */
+.button-container .action-button {
+  margin-bottom: 4px; /* Ajustez l'espacement entre les boutons au besoin */
+  margin-top: 12px;
+}
+
+/* Style pour le bouton en haut à droite */
+button.top-right-button {
+  background-color: primary; /* Couleur de fond verte */
+  color: white; /* Couleur du texte en blanc pour un bon contraste */
+  /* Ajoutez d'autres styles CSS au besoin */
+}

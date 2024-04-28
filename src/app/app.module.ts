@@ -39,14 +39,21 @@ import { AjouterContratComponent } from './Contrat/ajouter-contrat/ajouter-contr
 import { ListeContratComponent } from './Contrat/liste-contrat/liste-contrat.component';
 import { AjouterDemandeComponent } from './Demande_intervention/ajouter-demande/ajouter-demande.component';
 import { ListeDemandeComponent } from './Demande_intervention/liste-demande/liste-demande.component';
-import { AjouterInterventionComponent } from './Intervention/ajouter-intervention/ajouter-intervention.component';
-import { ListeInterventionComponent } from './Intervention/liste-intervention/liste-intervention.component';
+
+
+
 
 import {MatSelectModule} from '@angular/material/select';
 import { AjouterCategoriePieceComponent } from './CategoriePiece/ajouter-categorie-piece/ajouter-categorie-piece.component';
 import { ListeCategoriePieceComponent } from './CategoriePiece/liste-categorie-piece/liste-categorie-piece.component';
 import { ListeDepotComponent } from './Depot/liste-depot/liste-depot.component';
 import { AjouterDepotComponent } from './Depot/ajouter-depot/ajouter-depot.component';
+import { AjouterPieceRechangeComponent } from './PieceRechange/ajouter-piece-rechange/ajouter-piece-rechange.component';
+import { ListePieceRechangeComponent } from './PieceRechange/liste-piece-rechange/liste-piece-rechange.component';
+import { ListeCauseComponent } from './Cause/liste-cause/liste-cause.component';
+import { AjouterCauseComponent } from './Cause/ajouter-cause/ajouter-cause.component';
+import { ListeInterventionsComponent } from './Interventions/liste-interventions/liste-interventions.component';
+import { AjouterInterventionsComponent } from './Interventions/ajouter-interventions/ajouter-interventions.component';
 
 
 
@@ -68,12 +75,17 @@ import { AjouterDepotComponent } from './Depot/ajouter-depot/ajouter-depot.compo
     ListeContratComponent,
     AjouterDemandeComponent,
     ListeDemandeComponent,
-    AjouterInterventionComponent,
-    ListeInterventionComponent,
     AjouterCategoriePieceComponent,
     ListeCategoriePieceComponent,
     ListeDepotComponent,
     AjouterDepotComponent,
+    AjouterPieceRechangeComponent,
+    ListePieceRechangeComponent,
+    ListeCauseComponent,
+    AjouterCauseComponent,
+    ListeInterventionsComponent,
+    AjouterInterventionsComponent,
+
 
   
   ],

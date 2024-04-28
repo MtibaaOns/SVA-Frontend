@@ -28,6 +28,7 @@ export class AjouterContratComponent implements OnInit {
   contratForm!: FormGroup;
   public contratIdUpdate!:number;
   public isUpdateActive: boolean = false;
+  lastCodeNumber: number = 0;
   constructor(
     private router: Router,
     private _fb: FormBuilder,
@@ -39,14 +40,14 @@ export class AjouterContratComponent implements OnInit {
   ){}
   ngOnInit(): void {
     this.contratForm = this._fb.group({
-      numcontrat: [''],
+      code: [''],
       dateDebut: [''],
       dateFin: [''],
       nbInterMois: [''],
       nbInterAnnee: [''],
       mtForfaitaire: [''],
     });
- 
+  
     this.activateactiveroute.params.subscribe(val => {
       this.contratIdUpdate = val['numcontrat'];
       if (this.contratIdUpdate) {
@@ -58,20 +59,32 @@ export class AjouterContratComponent implements OnInit {
           error: (err) => {
             console.log(err);
           }
-
         });
+      } else {
+        this.generateCode(); // Appel de la méthode generateCode()
       }
     });
   }
+
   onFormSubmit() {
-    this.contratService.addContrat(this.contratForm.value).subscribe(
-      res => {
-        this.toastService.success({detail:"Succes",summary:"Contrat ajouté",duration:3000});
-        this.contratForm.reset();
-      },
-      
-    );
+    // Générer le code de l'intervention
+    this.generateCode();
+  
+    if (this.isUpdateActive) {
+      this.modifier();
+    } else {
+      this.contratService.addContrat(this.contratForm.value).subscribe({
+        next: (res: any) => {
+          this.toastService.success({detail:"Succes",summary:"Contrat ajouté",duration:3000});
+          this.contratForm.reset();
+        },
+        error: (error: any) => {
+          console.error(error);
+        }
+      });
+    }
   }
+  
   modifier() {
     const contrat = this.contratForm.value;
     const numcontrat = this.contratIdUpdate;
@@ -86,7 +99,7 @@ export class AjouterContratComponent implements OnInit {
   }
   fillFormToUpdate(contrat: Contrat) {
     this.contratForm.patchValue({
-      numcontrat: contrat.numcontrat,
+      code: contrat.code,
       dateDebut: contrat.dateDebut,
       dateFin: contrat.dateFin,
       nbInterMois: contrat.nbInterMois,
@@ -96,5 +109,17 @@ export class AjouterContratComponent implements OnInit {
   }
     date = new FormControl(new Date());
     serializedDate = new FormControl(new Date().toISOString());
+
+
+    generateCode(): void {
+      this.contratService.getAllContrats().subscribe((contrats) => {
+        const lastContrat = contrats[contrats.length - 1];
+        const lastCode = lastContrat ? lastContrat.code : 'cont-00';
+        const lastNumber = parseInt(lastCode.split('-')[1]);
+        this.lastCodeNumber = lastNumber;
+        const newCode = `cont-${(this.lastCodeNumber + 1).toString().padStart(2, '0')}`;
+        this.contratForm.patchValue({ code: newCode });
+      });
+    }
   }
   

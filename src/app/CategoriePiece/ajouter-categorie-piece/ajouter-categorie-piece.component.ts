@@ -1,13 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { CategoriePieceService } from '../categorie-piece.service';
-import { NgToastService } from 'ng-angular-popup';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CategoriePiece } from '../categorie-piece.model';
-
-const today = new Date();
-const month = today.getMonth();
-const year = today.getFullYear();
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CategoriePieceService } from '../categorie-piece.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-ajouter-categorie-piece',
@@ -15,90 +12,67 @@ const year = today.getFullYear();
   styleUrls: ['./ajouter-categorie-piece.component.css']
 })
 export class AjouterCategoriePieceComponent implements OnInit {
-  campaignOne = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
-  });
-  campaignTwo = new FormGroup({
-    start: new FormControl(new Date(year, month, 15)),
-    end: new FormControl(new Date(year, month, 19)),
-  });
-  categoriePieceForm!: FormGroup;
-  public categoriePieceIdUpdate!: number;
-  public isUpdateActive: boolean = false;
+  categoriePieceForm: FormGroup;
+  lastCodeNumber: number = 0;
 
   constructor(
-    private router: Router,
-    private _fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private categoriePieceService: CategoriePieceService,
-    private toastService: NgToastService,
-    private activatedRoute: ActivatedRoute
-  ) {}
+    private dialogRef: MatDialogRef<AjouterCategoriePieceComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: CategoriePiece
+  ) {
+    this.categoriePieceForm = this.formBuilder.group({
+      codeCategorie: '', // Champ vide initialement
+      desCategorie: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
-    this.categoriePieceForm = this._fb.group({
-      id: [''],
-      codeCategorie: [''],
-      desCategorie: [''],
-    });
+    if (this.data) {
+      this.categoriePieceForm.patchValue(this.data);
+    } else {
+      this.generateCodeCategorie();
+    }
+  }
 
-    this.activatedRoute.params.subscribe(val => {
-      this.categoriePieceIdUpdate = val['id'];
-      if (this.categoriePieceIdUpdate) {
-        this.isUpdateActive = true;
-        this.categoriePieceService.getCategoriePieceById(this.categoriePieceIdUpdate).subscribe({
-          next: (categoriePiece) => {
-            this.fillFormToUpdate(categoriePiece);
+  generateCodeCategorie(): void {
+    this.categoriePieceService.getAllCategoriesPieces().subscribe((categoriesPiece) => {
+      const lastCategorie = categoriesPiece[categoriesPiece.length - 1];
+      const lastCode = lastCategorie ? lastCategorie.codeCategorie : 'categ-00';
+      const lastNumber = parseInt(lastCode.split('-')[1]);
+      this.lastCodeNumber = lastNumber;
+      const newCode = `categ-${(this.lastCodeNumber + 1).toString().padStart(2, '0')}`;
+      this.categoriePieceForm.patchValue({ codeCategorie: newCode });
+    });
+  }
+
+  onFormSubmit(): void {
+    if (this.categoriePieceForm.valid) {
+      if (this.data) {
+        this.categoriePieceService.updateCategoriePiece(
+          this.data,
+          this.data.id,
+          this.categoriePieceForm.value.desCategorie
+        ).subscribe({
+          next: () => {
+            alert('Catégorie de pièce modifiée avec succès');
+            this.dialogRef.close(true);
           },
           error: (err) => {
-            console.log(err);
+            console.error(err);
           }
         });
       } else {
-        this.generateCodeCategorie();
+        this.categoriePieceService.addCategoriePiece(this.categoriePieceForm.value).subscribe({
+          next: () => {
+            alert('Catégorie de pièce ajoutée avec succès');
+            this.dialogRef.close(true);
+          },
+          error: (err) => {
+            console.error(err);
+          }
+        });
       }
-    });
-  }
-
-  generateCodeCategorie() {
-    this.categoriePieceService.getAllCategoriesPieces().subscribe((categoriesPieces) => {
-      const lastCategoriePiece = categoriesPieces[categoriesPieces.length - 1];
-      const lastCodeCategorie = lastCategoriePiece ? lastCategoriePiece.codeCategorie : 'categ-00';
-      const lastNumber = parseInt(lastCodeCategorie.split('-')[1]);
-      const newCodeCategorie = `categ-${(lastNumber + 1).toString().padStart(2, '0')}`;
-      this.categoriePieceForm.patchValue({ codeCategorie: newCodeCategorie });
-    });
-  }
-
-  onFormSubmit() {
-    this.categoriePieceService.addCategoriePiece(this.categoriePieceForm.value).subscribe({
-      next: (res) => {
-        this.toastService.success({ detail: "Succès", summary: "CategoriePiece ajouté", duration: 3000 });
-        this.categoriePieceForm.reset();
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    });
-  }
- 
-  modifier() {
-    const { id, codeCategorie, desCategorie } = this.categoriePieceForm.value;
-    const categoriePiece: CategoriePiece = { id, codeCategorie, desCategorie };
-  
-    this.categoriePieceService.updateCategoriePiece(categoriePiece,id,desCategorie)
-      .subscribe(res => {
-        this.toastService.success({ detail: 'SUCCESS', summary: 'Les détails de la catégorie de pièce ont été mis à jour avec succès', duration: 3000 });
-        this.router.navigate(['liste_categorie_piece']);
-        this.categoriePieceForm.reset();
-      });
-  }
-
-  fillFormToUpdate(categoriePiece: CategoriePiece) {
-    this.categoriePieceForm.patchValue({
-      id: categoriePiece.id,
-      codeCategorie: categoriePiece.codeCategorie,
-      desCategorie: categoriePiece.desCategorie,
-    });
+    }
   }
 }

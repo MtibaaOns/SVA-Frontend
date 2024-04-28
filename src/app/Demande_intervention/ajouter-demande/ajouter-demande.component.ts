@@ -28,6 +28,7 @@ export class AjouterDemandeComponent implements OnInit {
   demandeForm!: FormGroup;
   public demandeIdUpdate!:number;
   public isUpdateActive: boolean = false;
+  lastCodeNumber: number = 0;
   constructor(
     private router: Router,
     private _fb: FormBuilder,
@@ -39,7 +40,7 @@ export class AjouterDemandeComponent implements OnInit {
   ){}
   ngOnInit(): void {
     this.demandeForm = this._fb.group({
-      numDem: [''],
+      code: [''],
       statut: [''],
       dateFin: [''],
       dateDeb: [''],
@@ -47,7 +48,7 @@ export class AjouterDemandeComponent implements OnInit {
       priorite: [''],
       description: [''],
     });
- 
+  
     this.activateactiveroute.params.subscribe(val => {
       this.demandeIdUpdate = val['numDem'];
       if (this.demandeIdUpdate) {
@@ -59,20 +60,32 @@ export class AjouterDemandeComponent implements OnInit {
           error: (err) => {
             console.log(err);
           }
-
         });
+      } else {
+        this.generateCode(); // Appel de la méthode generateCode()
       }
     });
   }
+  
   onFormSubmit() {
-    this.demandeService.addDemande(this.demandeForm.value).subscribe(
-      res => {
-        this.toastService.success({detail:"Succes",summary:"Demande ajouté",duration:3000});
-        this.demandeForm.reset();
-      },
-      
-    );
+    // Générer le code de l'intervention
+    this.generateCode();
+  
+    if (this.isUpdateActive) {
+      this.modifier();
+    } else {
+      this.demandeService.addDemande(this.demandeForm.value).subscribe({
+        next: (res: any) => {
+          this.toastService.success({detail:"Succes",summary:"intervention ajouté",duration:3000});
+          this.demandeForm.reset();
+        },
+        error: (error: any) => {
+          console.error(error);
+        }
+      });
+    }
   }
+  
   modifier() {
     const demande = this.demandeForm.value;
     const numDem = this.demandeIdUpdate;
@@ -87,16 +100,27 @@ export class AjouterDemandeComponent implements OnInit {
   }
   fillFormToUpdate(demande: Demande) {
     this.demandeForm.patchValue({
-      numDem: demande.numDem,
+      code: demande.code,
       dateDeb: demande.dateDeb,
       dateFin: demande.dateFin,
       statut: demande.statut,
       titre: demande.titre,
       priorite : demande.priorite,
       description: demande.description,
+     
     });
   }
     date = new FormControl(new Date());
     serializedDate = new FormControl(new Date().toISOString());
+    generateCode(): void {
+      this.demandeService.getAllDemandes().subscribe((demandes) => {
+        const lastContrat = demandes[demandes.length - 1];
+        const lastCode = lastContrat ? lastContrat.code : 'dem-00';
+        const lastNumber = parseInt(lastCode.split('-')[1]);
+        this.lastCodeNumber = lastNumber;
+        const newCode = `dem-${(this.lastCodeNumber + 1).toString().padStart(2, '0')}`;
+        this.demandeForm.patchValue({ code: newCode });
+      });
+    }
   }
   

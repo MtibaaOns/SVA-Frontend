@@ -5,18 +5,20 @@
 </mat-toolbar>
 <form [formGroup]="specForm" (ngSubmit)="onFormSubmit()"   >
 <div mat-dialog-content class="content">
-    <div class="row">
-        <mat-form-field appearance="fill">
-            <mat-label>codeSpec</mat-label>
-            <input matInput type="number" formControlName="codeSpec">
-        </mat-form-field>
+  
+        <div class="row">
+            <mat-form-field appearance="outline">
+              <mat-label>Code Cause</mat-label>
+              <input matInput formControlName="code" readonly>
+            </mat-form-field>
+          </div>
         <mat-form-field appearance="fill">
             <mat-label>libSpec</mat-label>
             <input matInput formControlName="libSpec">
         </mat-form-field>
         </div>
        
-</div>
+
 <div mat-dialog-actions class="action">
     <button mat-raised-button [mat-dialog-close]="false">Retour</button>
     <button mat-raised-button color="primary" type="submit" >{{data ? 'Modifier':'Enregistrer' }}</button>

@@ -1,29 +1,26 @@
-<mat-card>
-    <mat-toolbar color="primary">
-      <h1>Formulaire catégorie de pièce</h1>
-      <span class="exemple-spacer"></span>
-      <button routerLink="/liste_categorie_piece" mat-raised-button color="accent">
-        Liste des catégories de pièces
-      </button>
-    </mat-toolbar>
-    <mat-card-content>
-      <div class="categorie-piece-form m-3 p-4">
-        <form [formGroup]="categoriePieceForm">
-          <div class="row">
-            <div class="col-md-6">
-              <mat-form-field appearance="fill">
-                <mat-label>desCategorie</mat-label>
-                <input matInput formControlName="desCategorie">
-              </mat-form-field>
-            </div>
-          </div>
-        </form>
-      </div>
-    </mat-card-content>
-    <mat-card-footer>
-      <div style="margin:2%;text-align: right;">
-        <button *ngIf="!isUpdateActive" (click)="onFormSubmit()" mat-raised-button color="accent">Enregistrer</button>
-        <button *ngIf="isUpdateActive" (click)="modifier()" mat-raised-button color="accent">Modifier</button>
-      </div>
-    </mat-card-footer>
-  </mat-card>
+<div mat-dialog-title></div>
+<mat-toolbar color="primary">
+  <h1>Ajouter/Modifier Catégorie de Pièce</h1>
+</mat-toolbar>
+
+<form [formGroup]="categoriePieceForm" (ngSubmit)="onFormSubmit()">
+  <div mat-dialog-content class="content">
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Code Catégorie</mat-label>
+        <input matInput formControlName="codeCategorie" readonly>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="desCategorie">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="action">
+    <button mat-raised-button [mat-dialog-close]="false">Retour</button>
+    <button mat-raised-button color="primary" type="submit">{{ data ? 'Modifier' : 'Enregistrer' }}</button>
+  </div>
+</form>

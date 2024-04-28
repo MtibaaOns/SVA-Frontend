@@ -1,0 +1,39 @@
+<div mat-dialog-title></div>
+<mat-toolbar color="primary">
+  <h1>Ajouter/Modifier Pièce de Rechange</h1>
+</mat-toolbar>
+
+<form [formGroup]="pieceRechangeForm" (ngSubmit)="onFormSubmit()">
+  <div mat-dialog-content class="content">
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Code Pièce</mat-label>
+        <input matInput formControlName="codePiece" readonly>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="desPiece">
+      </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field appearance="outline">
+            <mat-label>PrixAchat</mat-label>
+            <input matInput type="number" formControlName="prixAchat">
+            <mat-error *ngIf="pieceRechangeForm?.get('prixAchat')?.hasError('negativePrice')">
+              Le prix d'achat ne peut pas être négatif.
+            </mat-error>
+          </mat-form-field>
+      </div>
+      <mat-form-field appearance="outline">
+        <mat-label>TVA (%)</mat-label>
+        <input matInput type="number" formControlName="tauxTVA">
+      </mat-form-field>
+    </div>
+  
+  <div mat-dialog-actions class="action">
+    <button mat-raised-button [mat-dialog-close]="false">Retour</button>
+    <button mat-raised-button color="primary" type="submit">{{ data ? 'Modifier' : 'Enregistrer' }}</button>
+  </div>
+</form>

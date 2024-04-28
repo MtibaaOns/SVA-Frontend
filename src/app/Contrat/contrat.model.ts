@@ -1,5 +1,6 @@
 export interface Contrat{
     numcontrat:number;
+    code:string;
     dateDebut:string;
     dateFin:string;
     nbInterMois:number;

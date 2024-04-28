@@ -12,6 +12,7 @@ import { Specialite } from '../specialite';
 })
 export class SpecAddEditComponent  implements OnInit  {
   specForm: FormGroup
+  lastCodeNumber: number = 0;
   constructor 
   (  private _fb: FormBuilder,
     private specialiteService: SpecialiteService,
@@ -19,14 +20,47 @@ export class SpecAddEditComponent  implements OnInit  {
     @Inject(MAT_DIALOG_DATA) public data: Specialite
   ){
     this.specForm = this._fb.group({
-      codeSpec: ['', Validators.required],
+      code: '',
   libSpec: ['', Validators.required],
     })
   }
   ngOnInit(): void {
-    console.log(this.data);
-   this.specForm.patchValue(this.data)
+    if(this.data){this.specForm.patchValue(this.data)}
+    else{this.generateCode()}
+    
   }
+
+  generateCode(): void {
+    this.specialiteService.getAllSpecialites().subscribe((specialites) => {
+      const lasteSpecialite = specialites[specialites.length - 1];
+      const lastCode = lasteSpecialite ? lasteSpecialite.code : 'spec-00';
+      const lastNumber = parseInt(lastCode.split('-')[1]);
+      this.lastCodeNumber = lastNumber;
+      const newCode = `spec-${(this.lastCodeNumber + 1).toString().padStart(2, '0')}`;
+      this.specForm.patchValue({ code: newCode });
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   onFormSubmit() {
     if (this.specForm.valid) {
       if (this.data) {

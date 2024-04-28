@@ -15,12 +15,6 @@
 </mat-form-field>
     <div class="table-container">
       <table mat-table [dataSource]="utilisateurs" matSort>
-        <!-- ID Column -->
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-          <td mat-cell *matCellDef="let utilisateur"> {{ utilisateur.id }} </td>
-        </ng-container>
-        <!-- Nom Column -->
         <ng-container matColumnDef="nom">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
           <td mat-cell *matCellDef="let utilisateur"> {{ utilisateur.nom }} </td>
