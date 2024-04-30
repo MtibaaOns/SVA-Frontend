@@ -1,0 +1,91 @@
+<mat-card>
+    <mat-toolbar color="primary">
+        <h1>Formulaire intervention</h1>
+        <span class="exemple-spacer"></span>
+        <button routerLink="/liste_interventions" mat-raised-button color="accent">
+            Liste des interventions
+        </button>
+    </mat-toolbar>
+    <mat-card-content>
+        <div class="intervention-form m-3 p-4">
+            <form [formGroup]="interventionForm">
+                <div class="row">
+                    <mat-form-field appearance="fill">
+                        <mat-label for="code">Code</mat-label>
+                        <input matInput type="text" id="code" formControlName="code" [readonly]="true">
+                        <mat-error *ngIf="interventionForm.get('code')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Date de début</mat-label>
+                        <input matInput [matDatepicker]="picker1" placeholder="Date de début" formControlName="dateDeb">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                        <mat-error *ngIf="interventionForm.get('dateDeb')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                        <mat-error *ngIf="interventionForm.get('dateDeb')?.hasError('dateRangeError')">La date de début doit être antérieure à la date de fin</mat-error>
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="fill">
+                        <mat-label>Date de fin</mat-label>
+                        <input matInput [matDatepicker]="picker2" placeholder="Date de fin" formControlName="dateFin">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                        <mat-error *ngIf="interventionForm.get('dateFin')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                        <mat-error *ngIf="interventionForm.get('dateFin')?.hasError('dateRangeError')">La date de fin doit être postérieure à la date de début</mat-error>
+                      </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Durée</mat-label>
+                        <mat-select formControlName="duree">
+                            <mat-option *ngFor="let option of dureeOptions" [value]="option">{{ option }}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="interventionForm.get('duree')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Observation</mat-label>
+                        <input matInput type="text" formControlName="observation">
+                        <mat-error *ngIf="interventionForm.get('observation')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Clôturé</mat-label>
+                        <mat-select formControlName="cloturer">
+                            <mat-option [value]="true">Oui</mat-option>
+                            <mat-option [value]="false">Non</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="interventionForm.get('cloturer')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Montant HT</mat-label>
+                        <input matInput type="number" formControlName="montantHT">
+                        <mat-error *ngIf="interventionForm.get('montantHT')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Facturée</mat-label>
+                        <mat-select formControlName="facturer">
+                          <mat-option [value]="true">Oui</mat-option>
+                          <mat-option [value]="false">Non</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="interventionForm.get('facturer')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Cause</mat-label>
+                        <mat-select formControlName="cause">
+                            <mat-option *ngFor="let cause of causes" [value]="cause.libCause">{{ cause.libCause }}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="interventionForm.get('cause')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+                </div>
+            </form>
+        </div>
+    </mat-card-content>
+    <mat-card-footer>
+        <div style="margin:2%;text-align: right;">
+            <button *ngIf="!isUpdateActive" (click)="onFormSubmit()" mat-raised-button color="accent">Enregistrer</button>
+            <button *ngIf="isUpdateActive" (click)="modifier()" mat-raised-button color="accent">Modifier</button>
+        </div>
+    </mat-card-footer>
+</mat-card>

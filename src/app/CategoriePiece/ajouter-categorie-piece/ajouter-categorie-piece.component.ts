@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoriePieceService } from '../categorie-piece.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
-import { FormControl } from '@angular/forms';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-ajouter-categorie-piece',
@@ -18,6 +18,7 @@ export class AjouterCategoriePieceComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private categoriePieceService: CategoriePieceService,
+    private toastService: NgToastService,
     private dialogRef: MatDialogRef<AjouterCategoriePieceComponent>,
     @Inject(MAT_DIALOG_DATA) public data: CategoriePiece
   ) {
@@ -47,6 +48,9 @@ export class AjouterCategoriePieceComponent implements OnInit {
   }
 
   onFormSubmit(): void {
+    if (this.categoriePieceForm.invalid) {
+      this.toastService.error({ detail: 'Erreur', summary: 'Veillez remplir le formulaire de nouveau', duration: 3000 });
+    } else {
     if (this.categoriePieceForm.valid) {
       if (this.data) {
         this.categoriePieceService.updateCategoriePiece(
@@ -75,4 +79,4 @@ export class AjouterCategoriePieceComponent implements OnInit {
       }
     }
   }
-}
+}}

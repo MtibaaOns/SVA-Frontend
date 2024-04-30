@@ -5,6 +5,7 @@ import { PieceRechangeService } from '../piece-rechange.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
+import { NgToastService } from 'ng-angular-popup';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class AjouterPieceRechangeComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private pieceRechangeService: PieceRechangeService,
+    private toastService: NgToastService,
     private dialogRef: MatDialogRef<AjouterPieceRechangeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: PieceRechange
   ) {
@@ -50,6 +52,9 @@ export class AjouterPieceRechangeComponent implements OnInit {
   }
 
   onFormSubmit(): void {
+    if (this.pieceRechangeForm.invalid) {
+      this.toastService.error({ detail: 'Erreur', summary: 'Veillez remplir le formulaire de nouveau', duration: 3000 });
+    } else {
     if (this.pieceRechangeForm.valid) {
       // Votre logique de soumission de formulaire ici
       if (this.data) {
@@ -80,7 +85,7 @@ export class AjouterPieceRechangeComponent implements OnInit {
         });
       }
     }
-  }
+  }}
 
 
   //prix ne peut pas etre négative 

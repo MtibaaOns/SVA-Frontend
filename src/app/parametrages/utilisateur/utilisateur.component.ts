@@ -16,7 +16,7 @@ import {MatTableDataSource} from '@angular/material/table';
 export class UtilisateurComponent implements OnInit {
 
 
-  displayedColumns: string[] = [ 'nom', 'prenom','adresse','email', 'tel','role', 'login','mp','actions'];
+  displayedColumns: string[] = [ 'nom', 'prenom','adresse','email', 'tel','role', 'login','mp','specialite','actions'];
   
   public utilisateurs: MatTableDataSource<Utilisateur> = new MatTableDataSource<Utilisateur>();
 
@@ -81,7 +81,7 @@ export class UtilisateurComponent implements OnInit {
       
     });
   
-    this.utilisateurService.updateUtilisateur(utilisateur, utilisateur.id, utilisateur.nom.toString(),utilisateur.prenom.toString(),utilisateur.email.toString(),utilisateur.mp.toString(),utilisateur.login.toString(),utilisateur.role.toString(),utilisateur.adresse.toString(),utilisateur.tel.toString())
+    this.utilisateurService.updateUtilisateur(utilisateur, utilisateur.id, utilisateur.nom.toString(),utilisateur.prenom.toString(),utilisateur.email.toString(),utilisateur.mp.toString(),utilisateur.login.toString(),utilisateur.role.toString(),utilisateur.adresse.toString(),utilisateur.tel.toString(),utilisateur.specialite.toString())
         this.getAllUtilisateurs();
       
         dialogRef.afterClosed().subscribe({
@@ -92,7 +92,7 @@ export class UtilisateurComponent implements OnInit {
           },
         });
       }
-      //specialite
+      
       
 
 

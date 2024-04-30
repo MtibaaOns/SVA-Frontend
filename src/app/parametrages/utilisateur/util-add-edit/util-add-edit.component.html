@@ -47,6 +47,7 @@
                   <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
               </mat-form-field>
+            </div>
             <mat-form-field appearance="fill">
                 <mat-label>Rôle</mat-label>
                 <input [matAutocomplete]="auto" matInput formControlName="role">
@@ -55,7 +56,15 @@
                 </mat-option>
                </mat-autocomplete>
             </mat-form-field>
-        </div>
+            <div class="row" *ngIf="utilForm?.get('role')?.value === 'Tech'">
+                <mat-form-field appearance="fill">
+                    <mat-label>Spécialité</mat-label>
+                    <mat-select formControlName="specialite">
+                        <mat-option *ngFor="let specialite of specialites" [value]="specialite.libSpec">{{ specialite.libSpec }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+         
     </div>
     <div mat-dialog-actions class="action">
         <button mat-raised-button [mat-dialog-close]="false">Retour</button>

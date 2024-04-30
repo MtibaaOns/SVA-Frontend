@@ -7,5 +7,6 @@ export interface Utilisateur{
     adresse:String
     tel:String
     mp:String
-    role:String
+    role:String;
+    specialite:string
 }

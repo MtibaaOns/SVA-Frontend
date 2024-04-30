@@ -1,3 +1,4 @@
+<mat-card>
 <mat-toolbar color="primary">
   <h1>Formulaire Client</h1>
   <span class="exemple-spacer"></span>
@@ -10,43 +11,53 @@
 <div class="client-form m-3 p-4">
   <form [formGroup]="cliForm">
     <div class="row">
-      <div class="col-md-6">
+  
         <mat-form-field appearance="fill">
           <mat-label>Nom</mat-label>
           <input formControlName="nom" matInput placeholder="nom">
           <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
         </mat-form-field>
-      </div>
-      <div class="col-md-6">
+    
+  
         <mat-form-field appearance="fill">
           <mat-label>Prénom</mat-label>
           <input formControlName="prenom" matInput placeholder="prenom">
           <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
         </mat-form-field>
-      </div>
-      <div class="col-md-6">
+    
+      
         <mat-form-field appearance="fill">
           <mat-label>raisonSocial</mat-label>
           <input formControlName="raisonSocial" matInput placeholder="raisonSocial">
           <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
         </mat-form-field>
-      </div>
-      <div class="col-md-6">
+    
+      
         <mat-form-field appearance="fill">
           <mat-label>Email</mat-label>
           <input formControlName="email" matInput placeholder="email">
           <mat-icon matSuffix>mail_outline</mat-icon>
         </mat-form-field>
-      </div>
-      <div class="col-md-6">
+    
+    
+        <mat-form-field appearance="fill">
+          <mat-label>Adresse</mat-label>
+          <input formControlName="adresse" matInput placeholder="adresse">
+        </mat-form-field>
+    
+    
         <mat-form-field appearance="fill">
           <mat-label>MF</mat-label>
           <input formControlName="mf" matInput placeholder="mf">
           <mat-icon matSuffix>mail_outline</mat-icon>
         </mat-form-field>
-      </div>
+    
     </div>
+    
+    
+    <div style="margin:2%;text-align: right;">
+
     <button *ngIf="!isUpdateActive" (click)="onFormSubmit()" mat-raised-button color="accent">Enregistrer</button>
-    <button *ngIf="isUpdateActive" (click)="modifier()" mat-raised-button color="accent">Modifier</button>
+    <button *ngIf="isUpdateActive" (click)="modifier()" mat-raised-button color="accent">Modifier</button></div>
   </form>
 </div>

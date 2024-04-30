@@ -5,6 +5,7 @@ export interface Contrat{
     dateFin:string;
     nbInterMois:number;
     nbInterAnnee:number;
-    mtForfaitaire:String
+    mtForfaitaire:String;
+    client:string;
     
 }

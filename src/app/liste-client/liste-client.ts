@@ -6,4 +6,5 @@ export interface Client{
     adresse:String
     email:String
     mf:String
+    
 }

@@ -18,10 +18,7 @@
             <table mat-table [dataSource]="causes" matSort>
   
               <!-- ID Column -->
-              <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-                <td mat-cell *matCellDef="let cause"> {{ cause.id }} </td>
-              </ng-container>
+            
   
               <!-- CodeCause Column -->
               <ng-container matColumnDef="codeCause">
@@ -31,7 +28,7 @@
   
               <!-- LibCause Column -->
               <ng-container matColumnDef="libCause">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Description</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Libellé</th>
                 <td mat-cell *matCellDef="let cause"> {{ cause.libCause }} </td>
               </ng-container>
   

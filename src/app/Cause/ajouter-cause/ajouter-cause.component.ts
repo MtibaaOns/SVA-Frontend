@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CauseService } from '../cause.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-ajouter-cause',
@@ -17,12 +18,14 @@ export class AjouterCauseComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private causeService: CauseService,
+    private toastService: NgToastService,
     private dialogRef: MatDialogRef<AjouterCauseComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Cause
   ) {
     this.causeForm = this.formBuilder.group({
       codeCause: '', // Champ vide initialement
       libCause: ['', Validators.required]
+
     });
   }
 
@@ -46,6 +49,9 @@ export class AjouterCauseComponent implements OnInit {
   }
 
   onFormSubmit(): void {
+    if (this.causeForm.invalid) {
+      this.toastService.error({ detail: 'Erreur', summary: 'Veillez remplir le formulaire de nouveau', duration: 3000 });
+    } else {
     if (this.causeForm.valid) {
       if (this.data) {
         this.causeService.updateCause(
@@ -74,4 +80,4 @@ export class AjouterCauseComponent implements OnInit {
       }
     }
   }
-}
+}}

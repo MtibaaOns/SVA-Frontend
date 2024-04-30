@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DepotService } from '../depot.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
-import { FormControl } from '@angular/forms';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-ajouter-depot',
@@ -18,6 +18,7 @@ export class AjouterDepotComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private depotService: DepotService,
+    private toastService: NgToastService,
     private dialogRef: MatDialogRef<AjouterDepotComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Depot
   ) {
@@ -47,6 +48,9 @@ export class AjouterDepotComponent implements OnInit {
   }
 
   onFormSubmit(): void {
+    if (this.depotForm.invalid) {
+      this.toastService.error({ detail: 'Erreur', summary: 'Veillez remplir le formulaire de nouveau', duration: 3000 });
+    } else {
     if (this.depotForm.valid) {
       if (this.data) {
         this.depotService.updateDepot(
@@ -75,4 +79,4 @@ export class AjouterDepotComponent implements OnInit {
       }
     }
   }
-}
+}}

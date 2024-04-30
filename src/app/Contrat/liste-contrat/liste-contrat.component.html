@@ -35,20 +35,24 @@
     <td mat-cell *matCellDef="let contrat">{{ contrat.dateFin}}</td>
           </ng-container>
         <ng-container matColumnDef="nbInterMois">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> nbInterMois</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> NbMois</th>
     <td mat-cell *matCellDef="let contrat">{{ contrat.nbInterMois}}</td>
           </ng-container>
     
         <!-- Name Column -->
         <ng-container matColumnDef="nbInterAnnee">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> nbInterAnnee </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> NbAnnée </th>
           <td mat-cell *matCellDef="let contrat"> {{contrat.nbInterAnnee}} </td>
         </ng-container>
     
         <!-- Fruit Column -->
         <ng-container matColumnDef="mtForfaitaire">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> mtForfaitaire </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> MtForfitaire </th>
           <td mat-cell *matCellDef="let contrat"> {{contrat.mtForfaitaire}}</td>
+        </ng-container>
+        <ng-container matColumnDef="client">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Client </th>
+          <td mat-cell *matCellDef="let contrat"> {{contrat.client}}</td>
         </ng-container>
     
        

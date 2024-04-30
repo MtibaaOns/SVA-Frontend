@@ -10,76 +10,76 @@
             <div class="main-body">
                 <mat-form-field>
                     <mat-label>Filter</mat-label>
-                    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Maintenance" #input>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
                 </mat-form-field>
 
                 <div class="table-container">
                     <table mat-table [dataSource]="dataSource" matSort>
 
+               
+
                         <!-- Code Column -->
                         <ng-container matColumnDef="code">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
-                            <td mat-cell *matCellDef="let intervention"> {{ intervention.code }} </td>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
+                            <td mat-cell *matCellDef="let intervention">{{ intervention.code }}</td>
                         </ng-container>
 
                         <!-- DateDeb Column -->
                         <ng-container matColumnDef="dateDeb">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de Début </th>
-                            <td mat-cell *matCellDef="let intervention"> {{ intervention.dateDeb }} </td>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>DateDebut</th>
+                            <td mat-cell *matCellDef="let intervention">{{ intervention.dateDeb }}</td>
                         </ng-container>
 
                         <!-- DateFin Column -->
                         <ng-container matColumnDef="dateFin">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de Fin </th>
-                            <td mat-cell *matCellDef="let intervention"> {{ intervention.dateFin }} </td>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>DateFin</th>
+                            <td mat-cell *matCellDef="let intervention">{{ intervention.dateFin }}</td>
                         </ng-container>
 
                         <!-- Duree Column -->
                         <ng-container matColumnDef="duree">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Durée </th>
-                            <td mat-cell *matCellDef="let intervention"> {{ intervention.duree }} </td>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Durée</th>
+                            <td mat-cell *matCellDef="let intervention">{{ intervention.duree }}</td>
                         </ng-container>
 
                         <!-- Observation Column -->
                         <ng-container matColumnDef="observation">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Observation </th>
-                            <td mat-cell *matCellDef="let intervention"> {{ intervention.observation }} </td>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Observation</th>
+                            <td mat-cell *matCellDef="let intervention">{{ intervention.observation }}</td>
                         </ng-container>
 
                         <!-- Cloturer Column -->
                         <ng-container matColumnDef="cloturer">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Clôturé </th>
-                            <td mat-cell *matCellDef="let intervention"> {{ intervention.cloturer ? 'Oui' : 'Non' }} </td>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Clôturer</th>
+                            <td mat-cell *matCellDef="let intervention">{{ intervention.cloturer }}</td>
                         </ng-container>
 
                         <!-- MontantHT Column -->
-                        <ng-container matColumnDef="MontantHT">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Montant HT </th>
-                            <td mat-cell *matCellDef="let intervention"> {{ intervention.MontantHT }} </td>
+                        <ng-container matColumnDef="montantHT">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>MontantHT</th>
+                            <td mat-cell *matCellDef="let intervention">{{ intervention.montantHT }}</td>
                         </ng-container>
-                        
 
                         <!-- Facturer Column -->
                         <ng-container matColumnDef="facturer">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Facturé </th>
-                            <td mat-cell *matCellDef="let intervention"> {{ intervention.facturer ? 'Oui' : 'Non' }} </td>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Facturer</th>
+                            <td mat-cell *matCellDef="let intervention">{{ intervention.facturer }}</td>
                         </ng-container>
 
                         <!-- Cause Column -->
                         <ng-container matColumnDef="cause">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cause </th>
-                            <td mat-cell *matCellDef="let intervention"> {{ intervention.cause }} </td>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cause</th>
+                            <td mat-cell *matCellDef="let intervention">{{ intervention.cause }}</td>
                         </ng-container>
 
                         <!-- Actions Column -->
                         <ng-container matColumnDef="actions">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
                             <td mat-cell *matCellDef="let intervention">
                                 <button (click)="modifier(intervention.id)" mat-icon-button color="primary">
                                     <mat-icon>edit</mat-icon>
                                 </button>
-
-                                <button mat-icon-button color="warn" (click)="onDeleteIntervention(intervention.id)">
+                                <button (click)="OndeleteIntervention(intervention.id)" mat-icon-button color="warn">
                                     <mat-icon>delete</mat-icon>
                                 </button>
                             </td>
@@ -95,6 +95,7 @@
                     </table>
 
                     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of interventions"></mat-paginator>
+
                 </div>
             </div>
         </mat-card>

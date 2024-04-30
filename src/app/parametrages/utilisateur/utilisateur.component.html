@@ -54,6 +54,10 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Mot de passe </th>
           <td mat-cell *matCellDef="let utilisateur"> {{ utilisateur.mp }} </td>
         </ng-container>
+        <ng-container matColumnDef="specialite">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Spécialité </th>
+          <td mat-cell *matCellDef="let utilisateur"> {{ utilisateur.specialite }} </td>
+        </ng-container>
         <!-- Actions Column -->
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>

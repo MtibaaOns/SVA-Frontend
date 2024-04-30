@@ -1,26 +1,26 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Intervention } from '../interventions.model'; // Supposons que vous ayez défini une interface Intervention
+import { Intervention } from '../intervention.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { InterventionsService } from '../interventions.service';// Supposons que vous ayez défini un service InterventionService
+import { InterventionService } from '../intervention.service';
 
 @Component({
-  selector: 'app-liste-interventions',
-  templateUrl: './liste-interventions.component.html',
-  styleUrls: ['./liste-interventions.component.css']
+  selector: 'app-liste-intervention',
+  templateUrl: './liste-intervention.component.html',
+  styleUrls: ['./liste-intervention.component.css']
 })
-export class ListeInterventionsComponent implements OnInit {
+export class ListeInterventionComponent implements OnInit {
   public dataSource!: MatTableDataSource<Intervention>;
   public interventions!: Intervention[];
 
-  displayedColumns: string[] = [ 'code', 'dateDeb', 'dateFin', 'duree', 'observation', 'cloturer', 'MontantHT', 'facturer', 'cause', 'actions'];
+  displayedColumns: string[] = ['code', 'dateDeb', 'dateFin', 'duree', 'observation', 'cloturer', 'montantHT', 'facturer', 'cause', 'actions'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private interventionService: InterventionsService, private route: Router) {}
+  constructor(private interventionService: InterventionService, private route: Router) { }
 
   ngOnInit() {
     this.getAllInterventions();
@@ -54,7 +54,7 @@ export class ListeInterventionsComponent implements OnInit {
     this.route.navigate(['update_intervention', id]);
   }
 
-  onDeleteIntervention(id: number): void {
+  OndeleteIntervention(id: number): void {
     this.interventionService.deleteIntervention(id).subscribe({
       next: () => {
         console.log("Intervention supprimée avec succès.");

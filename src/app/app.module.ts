@@ -52,8 +52,8 @@ import { AjouterPieceRechangeComponent } from './PieceRechange/ajouter-piece-rec
 import { ListePieceRechangeComponent } from './PieceRechange/liste-piece-rechange/liste-piece-rechange.component';
 import { ListeCauseComponent } from './Cause/liste-cause/liste-cause.component';
 import { AjouterCauseComponent } from './Cause/ajouter-cause/ajouter-cause.component';
-import { ListeInterventionsComponent } from './Interventions/liste-interventions/liste-interventions.component';
-import { AjouterInterventionsComponent } from './Interventions/ajouter-interventions/ajouter-interventions.component';
+import { AjouterInterventionComponent } from './Interventions/ajouter-intervention/ajouter-intervention.component';
+import { ListeInterventionComponent } from './Interventions/liste-intervention/liste-intervention.component';
 
 
 
@@ -83,8 +83,9 @@ import { AjouterInterventionsComponent } from './Interventions/ajouter-intervent
     ListePieceRechangeComponent,
     ListeCauseComponent,
     AjouterCauseComponent,
-    ListeInterventionsComponent,
-    AjouterInterventionsComponent,
+    AjouterInterventionComponent,
+    ListeInterventionComponent,
+
 
 
   

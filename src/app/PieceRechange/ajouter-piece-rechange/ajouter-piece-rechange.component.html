@@ -13,8 +13,9 @@
     </div>
     <div class="row">
       <mat-form-field appearance="outline">
-        <mat-label>Description</mat-label>
+        <mat-label>Designation</mat-label>
         <input matInput formControlName="desPiece">
+        <mat-error *ngIf="pieceRechangeForm.get('desPiece')?.hasError('required')">Ce champ est obligatoire</mat-error>
       </mat-form-field>
     </div>
     <div class="row">
@@ -24,11 +25,13 @@
             <mat-error *ngIf="pieceRechangeForm?.get('prixAchat')?.hasError('negativePrice')">
               Le prix d'achat ne peut pas être négatif.
             </mat-error>
+            <mat-error *ngIf="pieceRechangeForm.get('prixAchat')?.hasError('required')">Ce champ est obligatoire</mat-error>
           </mat-form-field>
       </div>
       <mat-form-field appearance="outline">
         <mat-label>TVA (%)</mat-label>
         <input matInput type="number" formControlName="tauxTVA">
+        <mat-error *ngIf="pieceRechangeForm.get('tauxTVA')?.hasError('required')">Ce champ est obligatoire</mat-error>
       </mat-form-field>
     </div>
   

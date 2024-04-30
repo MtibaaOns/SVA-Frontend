@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormGroup, FormControl, FormBuilder} from '@angular/forms';
+import {FormGroup, FormControl, FormBuilder, AbstractControl, Validators} from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 import { ActivatedRoute,Router } from '@angular/router';
 import { Demande } from '../dem_interv.model';
@@ -16,7 +16,7 @@ const year = today.getFullYear();
 export class AjouterDemandeComponent implements OnInit {
 
   
- 
+  prioriteOptions: string[]= ["Haute","Moyenne","Basse"]
   campaignOne = new FormGroup({
     start: new FormControl(new Date(year, month, 13)),
     end: new FormControl(new Date(year, month, 16)),
@@ -40,13 +40,13 @@ export class AjouterDemandeComponent implements OnInit {
   ){}
   ngOnInit(): void {
     this.demandeForm = this._fb.group({
-      code: [''],
-      statut: [''],
-      dateFin: [''],
-      dateDeb: [''],
-      titre: [''],
-      priorite: [''],
-      description: [''],
+      code: ['', Validators.required],
+      statut: ['', Validators.required],
+      dateDeb: ['', [Validators.required, this.validateDateRange.bind(this)]],
+      dateFin: ['', [Validators.required, this.validateDateRange.bind(this)]],
+      titre: ['', Validators.required],
+      priorite: ['', Validators.required],
+      description: ['', Validators.required],
     });
   
     this.activateactiveroute.params.subscribe(val => {
@@ -65,27 +65,31 @@ export class AjouterDemandeComponent implements OnInit {
         this.generateCode(); // Appel de la méthode generateCode()
       }
     });
+    this.demandeForm.setValidators(this.validateDateRange.bind(this));
   }
   
   onFormSubmit() {
-    // Générer le code de l'intervention
-    this.generateCode();
-  
-    if (this.isUpdateActive) {
-      this.modifier();
+    if (this.demandeForm.invalid) {
+      this.toastService.error({ detail: 'Erreur', summary: 'Veillez remplir le formulaire de nouveau', duration: 3000 });
     } else {
-      this.demandeService.addDemande(this.demandeForm.value).subscribe({
-        next: (res: any) => {
-          this.toastService.success({detail:"Succes",summary:"intervention ajouté",duration:3000});
-          this.demandeForm.reset();
-        },
-        error: (error: any) => {
-          console.error(error);
-        }
-      });
+      // Générer le code de l'intervention
+      this.generateCode();
+    
+      if (this.isUpdateActive) {
+        this.modifier();
+      } else {
+        this.demandeService.addDemande(this.demandeForm.value).subscribe({
+          next: (res: any) => {
+            this.toastService.success({detail:"Succes",summary:"intervention ajouté",duration:3000});
+            this.demandeForm.reset();
+          },
+          error: (error: any) => {
+            console.error(error);
+          }
+        });
+      }
     }
   }
-  
   modifier() {
     const demande = this.demandeForm.value;
     const numDem = this.demandeIdUpdate;
@@ -122,5 +126,21 @@ export class AjouterDemandeComponent implements OnInit {
         this.demandeForm.patchValue({ code: newCode });
       });
     }
+    
+  // Validation personnalisée pour la date de début et de fin
+  validateDateRange(control: AbstractControl): { [key: string]: boolean } | null {
+    const startDate = control.get('dateDeb')?.value;
+    const endDate = control.get('dateFin')?.value;
+
+    if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+      control.get('dateDeb')?.setErrors({ 'dateRangeError': true });
+      control.get('dateFin')?.setErrors({ 'dateRangeError': true });
+      return { 'dateRangeError': true };
+    } else {
+      control.get('dateDeb')?.setErrors(null);
+      control.get('dateFin')?.setErrors(null);
+      return null;
+    }
+  }
   }
   

@@ -20,11 +20,7 @@
           <table mat-table [dataSource]="categoriesPiece" matSort>
 
             <!-- ID Column -->
-            <ng-container matColumnDef="id">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-              <td mat-cell *matCellDef="let categoriePiece"> {{ categoriePiece.id }} </td>
-            </ng-container>
-
+        
             <!-- CodeCategorie Column -->
             <ng-container matColumnDef="codeCategorie">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Code</th>
@@ -33,7 +29,7 @@
 
             <!-- DesCategorie Column -->
             <ng-container matColumnDef="desCategorie">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Description</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Designation</th>
               <td mat-cell *matCellDef="let categoriePiece"> {{ categoriePiece.desCategorie }} </td>
             </ng-container>
 

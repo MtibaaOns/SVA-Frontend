@@ -1,75 +1,72 @@
-
 <mat-card>
     <mat-toolbar color="primary">
         <h1>Formulaire demande d'intervention</h1>
         <span class="exemple-spacer"></span>
         <button routerLink="/liste_demande" mat-raised-button color="accent">
-          liste demande d'intervention
+            liste demande d'intervention
         </button>
-      </mat-toolbar>
+    </mat-toolbar>
     <mat-card-content>
         <div class="contrat-form m-3 p-4">
             <form [formGroup]="demandeForm">
                 <div class="row">
-                    <div class="col-md-6">
-                        <mat-form-field appearance="fill">
-                            <mat-label for="code">Code</mat-label>
-                            <input matInput type="text" id="code" formControlName="code" [readonly]="true">
-                        </mat-form-field>
-                    </div>
-                    <div class="col-md-6">
-                        <mat-form-field appearance="fill">
-                            <mat-label>statut</mat-label>
-                            <input matInput type="text" formControlName="statut">
-                        </mat-form-field>
-                    </div>
-                    <div class="col-md-6">
-                        <mat-form-field appearance="fill">
-                            <mat-label>titre</mat-label>
-                            <input matInput type="text" formControlName="titre">
-                        </mat-form-field>
-                    </div>
-                    <div class="col-md-6">
-                        <mat-form-field appearance="fill">
-                            <mat-label>Priorité</mat-label>
-                            <input matInput type="text" formControlName="priorite">
-                        </mat-form-field>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <mat-form-field appearance="fill">
-                            <mat-label>dateDeb</mat-label>
-                            <input matInput [matDatepicker]="picker1" placeholder="dateDeb" formControlName="dateDeb">
-                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                            <mat-datepicker #picker1></mat-datepicker>
-                          </mat-form-field>
-                    </div>
-                    <div class="col-md-6">
-                        <mat-form-field appearance="fill">
-                            <mat-label>dateFin</mat-label>
-                            <input matInput [matDatepicker]="picker2" placeholder="dateFin" formControlName="dateFin">
-                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                            <mat-datepicker #picker2></mat-datepicker>
-                          </mat-form-field>
-                        </div>
-                        <div class="col-md-6">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Description</mat-label>
-                                <textarea matInput formControlName="description"></textarea>
-                              
-                            </mat-form-field>
-                        </div>
-                 
+                    <mat-form-field appearance="fill">
+                        <mat-label for="code">Code</mat-label>
+                        <input matInput type="text" id="code" formControlName="code" [readonly]="true">
+                        <mat-error *ngIf="demandeForm.get('code')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Statut</mat-label>
+                        <input matInput type="text" formControlName="statut">
+                        <mat-error *ngIf="demandeForm.get('statut')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Titre</mat-label>
+                        <input matInput type="text" formControlName="titre">
+                        <mat-error *ngIf="demandeForm.get('titre')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Priorité</mat-label>
+                        <mat-select formControlName="priorite">
+                            <mat-option *ngFor="let option of prioriteOptions" [value]="option">{{ option }}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="demandeForm.get('priorite')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Date de début</mat-label>
+                        <input matInput [matDatepicker]="picker1" placeholder="Date de début" formControlName="dateDeb">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                        <mat-error *ngIf="demandeForm.get('dateDeb')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                        <mat-error *ngIf="demandeForm.get('dateDeb')?.hasError('dateRangeError')">La date de début doit être antérieure à la date de fin</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Date de fin</mat-label>
+                        <input matInput [matDatepicker]="picker2" placeholder="Date de fin" formControlName="dateFin">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                        <mat-error *ngIf="demandeForm.get('dateFin')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                        <mat-error *ngIf="demandeForm.get('dateFin')?.hasError('dateRangeError')">La date de fin doit être postérieure à la date de début</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput formControlName="description"></textarea>
+                        <mat-error *ngIf="demandeForm.get('description')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
                 </div>
             </form>
-            </div>
+        </div>
     </mat-card-content>
     <mat-card-footer>
         <div style="margin:2%;text-align: right;">
-          
             <button *ngIf="!isUpdateActive" (click)="onFormSubmit()" mat-raised-button color="accent">Enregistrer</button>
             <button *ngIf="isUpdateActive" (click)="modifier()" mat-raised-button color="accent">Modifier</button>
         </div>
     </mat-card-footer>
-
 </mat-card>

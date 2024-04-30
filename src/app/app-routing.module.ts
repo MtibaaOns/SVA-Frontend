@@ -17,9 +17,8 @@ import { ListePieceRechangeComponent } from './PieceRechange/liste-piece-rechang
 import { AjouterPieceRechangeComponent } from './PieceRechange/ajouter-piece-rechange/ajouter-piece-rechange.component';
 import { ListeCauseComponent } from './Cause/liste-cause/liste-cause.component';
 
-import { ListeInterventionsComponent} from './Interventions/liste-interventions/liste-interventions.component';
-import { AjouterInterventionsComponent } from './Interventions/ajouter-interventions/ajouter-interventions.component';
-
+import { ListeInterventionComponent } from './Interventions/liste-intervention/liste-intervention.component';
+import { AjouterInterventionComponent } from './Interventions/ajouter-intervention/ajouter-intervention.component';
 
 const routes: Routes = [
  
@@ -49,9 +48,9 @@ const routes: Routes = [
   {path:"liste_demande",component:ListeDemandeComponent},
   {path: "update_demande/:numDem", component: AjouterDemandeComponent },
 
-  {path:"ajouter_interventions", component:AjouterInterventionsComponent},
-  {path:"liste_interventions",component:ListeInterventionsComponent},
-  {path: "update_intervention/:id", component: AjouterInterventionsComponent },
+  {path:"ajouter_intervention",component:AjouterInterventionComponent},
+  {path:"liste_interventions",component:ListeInterventionComponent},
+  {path: "update_intervention/:id", component: AjouterInterventionComponent },
 
 
 ];

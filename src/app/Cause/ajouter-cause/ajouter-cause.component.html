@@ -13,8 +13,9 @@
     </div>
     <div class="row">
       <mat-form-field appearance="outline">
-        <mat-label>Description</mat-label>
+        <mat-label>Libellé</mat-label>
         <input matInput formControlName="libCause">
+        <mat-error *ngIf="causeForm.get('libCause')?.hasError('required')">Ce champ est obligatoire</mat-error>
       </mat-form-field>
     </div>
   </div>
