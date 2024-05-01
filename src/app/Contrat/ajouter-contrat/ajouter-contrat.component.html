@@ -43,7 +43,9 @@
                             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                             <mat-datepicker #picker1></mat-datepicker>
                             <mat-error *ngIf="contratForm.get('dateDebut')?.hasError('required')">Ce champ est obligatoire</mat-error>
-                            <mat-error *ngIf="contratForm.get('dateDebut')?.hasError('dateRangeError')">La date de début doit être antérieure à la date de fin</mat-error>
+                                    
+                        <mat-error *ngIf="contratForm.get('dateDebut')?.hasError('dateRangeError')">La date de début doit être antérieure à la date de fin</mat-error>
+                        <mat-error *ngIf="contratForm.get('dateDebut')?.hasError('dateEqualityError')">La date de début ne peut pas être égale à la date de fin</mat-error>
                           </mat-form-field>
            
            

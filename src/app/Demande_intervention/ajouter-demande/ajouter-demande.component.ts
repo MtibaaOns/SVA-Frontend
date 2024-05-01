@@ -131,16 +131,26 @@ export class AjouterDemandeComponent implements OnInit {
   validateDateRange(control: AbstractControl): { [key: string]: boolean } | null {
     const startDate = control.get('dateDeb')?.value;
     const endDate = control.get('dateFin')?.value;
-
-    if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
-      control.get('dateDeb')?.setErrors({ 'dateRangeError': true });
-      control.get('dateFin')?.setErrors({ 'dateRangeError': true });
-      return { 'dateRangeError': true };
-    } else {
-      control.get('dateDeb')?.setErrors(null);
-      control.get('dateFin')?.setErrors(null);
-      return null;
+  
+    if (startDate && endDate) {
+      const startDateTime = new Date(startDate).getTime();
+      const endDateTime = new Date(endDate).getTime();
+  
+      if (startDateTime > endDateTime) {
+        control.get('dateDeb')?.setErrors({ 'dateRangeError': true });
+        control.get('dateFin')?.setErrors({ 'dateRangeError': true });
+        return { 'dateRangeError': true };
+      } else if (startDateTime === endDateTime) {
+        control.get('dateDeb')?.setErrors({ 'dateEqualityError': true });
+        control.get('dateFin')?.setErrors({ 'dateEqualityError': true });
+        return { 'dateEqualityError': true };
+      } else {
+        control.get('dateDeb')?.setErrors(null);
+        control.get('dateFin')?.setErrors(null);
+      }
     }
+  
+    return null;
   }
   }
   

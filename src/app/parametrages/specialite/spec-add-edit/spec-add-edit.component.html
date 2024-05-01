@@ -15,6 +15,7 @@
         <mat-form-field appearance="fill">
             <mat-label>libSpec</mat-label>
             <input matInput formControlName="libSpec">
+            <mat-error *ngIf="specForm.get('libSpec')?.hasError('required')">Ce champ est obligatoire</mat-error>
         </mat-form-field>
         </div>
        

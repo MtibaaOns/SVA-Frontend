@@ -1,38 +1,38 @@
-
-
 <div mat-dialog-title></div>
 <mat-toolbar color="primary">
-<h1>Ajouter/Modifier Société</h1>
+  <h1>Ajouter/Modifier Société</h1>
 </mat-toolbar>
-<form [formGroup]="socForm" (ngSubmit)="onFormSubmit()"   >
-<div mat-dialog-content class="content">
+<form *ngIf="socForm" [formGroup]="socForm" (ngSubmit)="onFormSubmit()">
+  <div mat-dialog-content class="content">
     <div class="row">
-        <mat-form-field appearance="outline">
-            <mat-label>RaisonSocial</mat-label>
-            <input matInput type="text" formControlName="raisonSocial">
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Adresse</mat-label>
-            <input matInput formControlName="adresse">
-        </mat-form-field>
-        </div>
-        <div class="row">
-        <mat-form-field appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput type="email" placeholder="Ex. test@gmail.com" formControlName="email">
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Tel</mat-label>
-            <input matInput type="number" formControlName="tel" >
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>MF</mat-label>
-            <input matInput formControlName="mf">
-        </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>RaisonSocial</mat-label>
+        <input matInput type="text" formControlName="raisonSocial">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Adresse</mat-label>
+        <input matInput formControlName="adresse">
+      </mat-form-field>
     </div>
-</div>
-<div mat-dialog-actions class="action">
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" placeholder="Ex. test@gmail.com" formControlName="email">
+        <mat-error *ngIf="socForm.get('email')?.hasError('email')">Veuillez entrer un email valide.</mat-error>
+        <mat-error *ngIf="emailExists">Cet email est déjà utilisé.</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Tel</mat-label>
+        <input matInput type="number" formControlName="tel">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>MF</mat-label>
+        <input matInput formControlName="mf">
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions class="action">
     <button mat-raised-button [mat-dialog-close]="false">Retour</button>
-    <button mat-raised-button color="primary" type="submit" >{{data ? 'Modifier':'Enregistrer' }}</button>
-</div>
+    <button mat-raised-button color="primary" type="submit">{{ data ? 'Modifier' : 'Enregistrer' }}</button>
+  </div>
 </form>

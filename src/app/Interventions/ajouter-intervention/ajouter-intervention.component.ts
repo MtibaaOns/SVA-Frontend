@@ -6,8 +6,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Intervention } from '../intervention.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../assets/environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Cause } from '../../Cause/cause.model';
+import { Utilisateur } from '../../parametrages/utilisateur/utilisateur';
 
 @Component({
   selector: 'app-ajouter-intervention',
@@ -18,6 +19,7 @@ export class AjouterInterventionComponent implements OnInit {
   
   dureeOptions: string[] = ['30 minutes', '1 heure', '2 heures', '3 heures', '4 heures', '5 heures', '6 heures', '7 heures', '8 heures', '9 heures', '10 heures', '11 heures', '12 heures', '13 heures', '14 heures', '15 heures', '16 heures', '17 heures', '18 heures', '19 heures', '20 heures', '21 heures', '22 heures', '23 heures', '24 heures'];
   causes!: Cause[];
+  utilisateurs!: Utilisateur[];
   private apiServerUrl = environment.apiBaseUrl;
   interventionForm!: FormGroup;
   public interventionIdUpdate!: number;
@@ -36,14 +38,15 @@ export class AjouterInterventionComponent implements OnInit {
   ngOnInit(): void {
     this.interventionForm = this._fb.group({
       code: ['', Validators.required],
-      dateDeb: ['', [Validators.required, this.validateDateRange.bind(this)]],
-      dateFin: ['', [Validators.required, this.validateDateRange.bind(this)]],
+      dateDeb: ['', [Validators.required, this.validateRange.bind(this)]],
+      dateFin: ['', [Validators.required, this.validateRange.bind(this)]],
       duree: ['', Validators.required],
       observation: ['', Validators.required],
       cloturer: [false, Validators.required],
       montantHT: ['', Validators.required],
       facturer: [false, Validators.required],
-      cause: ['', Validators.required]
+      cause: ['', Validators.required],
+      technicien: ['', Validators.required],
     });
 
     this.activateactiveroute.params.subscribe(val => {
@@ -66,37 +69,43 @@ export class AjouterInterventionComponent implements OnInit {
     this.getCauses().subscribe(causes => {
       this.causes = causes;
     });
+     
+    this.getUtilisateurs().subscribe(utilisateurs => {
+      this.utilisateurs = utilisateurs;
+    });
+    this.interventionForm.setValidators(this.validateRange.bind(this));
   }
 
   onFormSubmit() {
     if (this.interventionForm.invalid) {
       this.toastService.error({ detail: 'Erreur', summary: 'Veillez remplir le formulaire de nouveau', duration: 3000 });
     } else {
-    
-    // Générer le code de l'intervention
-    this.generateCode();
+      // Générer le code de l'intervention
+      this.generateCode();
+      this.getUtilisateurs;
 
-    if (this.isUpdateActive) {
-      this.modifier();
-    } else {
-      this.interventionService.addIntervention(this.interventionForm.value).subscribe({
-        next: (res: any) => {
-          this.toastService.success({ detail: "Succes", summary: "Intervention ajoutée", duration: 3000 });
-          this.interventionForm.reset();
-        },
-        error: (error: any) => {
-          console.error(error);
-        }
-      });
-    }}
+      if (this.isUpdateActive) {
+        this.modifier();
+      } else {
+        this.interventionService.addIntervention(this.interventionForm.value).subscribe({
+          next: (res: any) => {
+            this.toastService.success({ detail: "Succes", summary: "Intervention ajoutée", duration: 3000 });
+            this.interventionForm.reset();
+          },
+          error: (error: any) => {
+            console.error(error);
+          }
+        });
+      }
+    }
   }
 
   modifier() {
     const intervention = this.interventionForm.value;
     const id = this.interventionIdUpdate;
-    const { dateDeb, dateFin, duree, observation, cloturer, montantHT, facturer, cause } = intervention;
+    const { dateDeb, dateFin, duree, observation, cloturer, montantHT, facturer, cause, technicien } = intervention;
 
-    this.interventionService.updateIntervention(intervention, id, dateDeb, dateFin, duree, observation, cloturer, montantHT, facturer, cause)
+    this.interventionService.updateIntervention(intervention, id, dateDeb, dateFin, duree, observation, cloturer, montantHT, facturer, cause, technicien)
       .subscribe(res => {
         this.toastService.success({ detail: 'SUCCESS', summary: "Les détails d'intervention ont été mis à jour avec succès", duration: 3000 });
         this.router.navigate(['liste_interventions']);
@@ -114,7 +123,8 @@ export class AjouterInterventionComponent implements OnInit {
       cloturer: intervention.cloturer,
       montantHT: intervention.montantHT,
       facturer: intervention.facturer,
-      cause: intervention.cause
+      cause: intervention.cause,
+      technicien: intervention.technicien
     });
   }
 
@@ -133,19 +143,35 @@ export class AjouterInterventionComponent implements OnInit {
     return this.http.get<Cause[]>(this.apiServerUrl + '/causes/all');
   }
 
+  getUtilisateurs(): Observable<Utilisateur[]> {
+    return this.http.get<Utilisateur[]>(this.apiServerUrl + '/Utilisateurs/all').pipe(
+      map(utilisateurs => utilisateurs.filter(utilisateur => utilisateur.role === 'Tech'))
+    );
+  }
+
   // Validation personnalisée pour la date de début et de fin
-  validateDateRange(control: AbstractControl): { [key: string]: boolean } | null {
+  validateRange(control: AbstractControl): { [key: string]: boolean } | null {
     const startDate = control.get('dateDeb')?.value;
     const endDate = control.get('dateFin')?.value;
-  
-    if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
-      control.get('dateDeb')?.setErrors({ 'dateRangeError': true });
-      control.get('dateFin')?.setErrors({ 'dateRangeError': true });
-      return { 'dateRangeError': true };
-    } else {
-      control.get('dateDeb')?.setErrors(null);
-      control.get('dateFin')?.setErrors(null);
-      return null;
+
+    if (startDate && endDate) {
+      const startDateTime = new Date(startDate).getTime();
+      const endDateTime = new Date(endDate).getTime();
+
+      if (startDateTime > endDateTime) {
+        control.get('dateDeb')?.setErrors({ 'dateRangeError': true });
+        control.get('dateFin')?.setErrors({ 'dateRangeError': true });
+        return { 'dateRangeError': true };
+      } else if (startDateTime === endDateTime) {
+        control.get('dateDeb')?.setErrors({ 'dateEqualityError': true });
+        control.get('dateFin')?.setErrors({ 'dateEqualityError': true });
+        return { 'dateEqualityError': true };
+      } else {
+        control.get('dateDeb')?.setErrors(null);
+        control.get('dateFin')?.setErrors(null);
+      }
     }
+
+    return null;
   }
 }

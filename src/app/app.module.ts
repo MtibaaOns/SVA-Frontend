@@ -54,6 +54,8 @@ import { ListeCauseComponent } from './Cause/liste-cause/liste-cause.component';
 import { AjouterCauseComponent } from './Cause/ajouter-cause/ajouter-cause.component';
 import { AjouterInterventionComponent } from './Interventions/ajouter-intervention/ajouter-intervention.component';
 import { ListeInterventionComponent } from './Interventions/liste-intervention/liste-intervention.component';
+import { AjouterFactureComponent } from './Facture/ajouter-facture/ajouter-facture.component';
+import { ListeFactureComponent } from './Facture/liste-facture/liste-facture.component';
 
 
 
@@ -85,6 +87,8 @@ import { ListeInterventionComponent } from './Interventions/liste-intervention/l
     AjouterCauseComponent,
     AjouterInterventionComponent,
     ListeInterventionComponent,
+    AjouterFactureComponent,
+    ListeFactureComponent,
 
 
 

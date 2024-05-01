@@ -1,0 +1,73 @@
+<mat-card>
+    <mat-toolbar color="primary">
+        <h1>Formulaire Facture</h1>
+        <span class="exemple-spacer"></span>
+        <button routerLink="/liste_facture" mat-raised-button color="accent">
+            Liste des Factures
+        </button>
+    </mat-toolbar>
+    <mat-card-content>
+        <div class="facture-form m-3 p-4">
+            <form [formGroup]="factureForm">
+                <div class="row">
+                    <mat-form-field appearance="fill">
+                        <mat-label for="code">Code</mat-label>
+                        <input matInput type="text" id="code" formControlName="code" [readonly]="true">
+                        <mat-error *ngIf="factureForm.get('code')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Date</mat-label>
+                        <input matInput [matDatepicker]="picker" placeholder="Date" formControlName="date">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="factureForm.get('date')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Client</mat-label>
+                        <input matInput type="text" formControlName="client">
+                        <mat-error *ngIf="factureForm.get('client')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Total HT</mat-label>
+                        <input matInput type="number" formControlName="totalHT">
+                        <mat-error *ngIf="factureForm.get('totalHT')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                        <mat-error *ngIf="factureForm.get('totalHT')?.hasError('min')">La valeur doit être supérieure ou égale à 0</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>TVA</mat-label>
+                        <input matInput type="number" formControlName="tva">
+                        <mat-error *ngIf="factureForm.get('tva')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                        <mat-error *ngIf="factureForm.get('tva')?.hasError('min')">La valeur doit être supérieure ou égale à 0</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Total TTC</mat-label>
+                        <input matInput type="number" formControlName="totalTTC">
+                        <mat-error *ngIf="factureForm.get('totalTTC')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                        <mat-error *ngIf="factureForm.get('totalTTC')?.hasError('min')">La valeur doit être supérieure ou égale à 0</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Intervention</mat-label>
+                        <input matInput type="text" formControlName="intervention">
+                        <mat-error *ngIf="factureForm.get('intervention')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+                </div>
+            </form>
+        </div>
+    </mat-card-content>
+    <mat-card-footer>
+        <div style="margin:2%;text-align: right;">
+            <button *ngIf="!isUpdateActive" (click)="onFormSubmit()" mat-raised-button color="accent">Enregistrer</button>
+            <button *ngIf="isUpdateActive" (click)="modifier()" mat-raised-button color="accent">Modifier</button>
+        </div>
+    </mat-card-footer>
+</mat-card>

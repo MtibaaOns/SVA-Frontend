@@ -9,4 +9,5 @@ export interface Intervention {
     montantHT: number;
     facturer: boolean;
     cause: string;
+    technicien:string
   }

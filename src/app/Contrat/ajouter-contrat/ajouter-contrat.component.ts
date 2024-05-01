@@ -74,6 +74,7 @@ export class AjouterContratComponent implements OnInit {
     this.getClients().subscribe(clients => {
       this.clients = clients;
     });
+    this.contratForm.setValidators(this.validateDateRange.bind(this));
   }
 
   onFormSubmit() {
@@ -143,16 +144,26 @@ export class AjouterContratComponent implements OnInit {
   }
   validateDateRange(control: AbstractControl): { [key: string]: boolean } | null {
     const startDate = control.get('dateDebut')?.value;
-    const endDate = control.get('dateFin')?.value;
+  const endDate = control.get('dateFin')?.value;
 
-    if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+  if (startDate && endDate) {
+    const startDateTime = new Date(startDate).getTime();
+    const endDateTime = new Date(endDate).getTime();
+
+    if (startDateTime > endDateTime) {
       control.get('dateDebut')?.setErrors({ 'dateRangeError': true });
       control.get('dateFin')?.setErrors({ 'dateRangeError': true });
       return { 'dateRangeError': true };
+    } else if (startDateTime === endDateTime) {
+      control.get('dateDebut')?.setErrors({ 'dateEqualityError': true });
+      control.get('dateFin')?.setErrors({ 'dateEqualityError': true });
+      return { 'dateEqualityError': true };
     } else {
       control.get('dateDebut')?.setErrors(null);
       control.get('dateFin')?.setErrors(null);
-      return null;
     }
   }
+
+  return null;
+}
 }

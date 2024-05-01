@@ -20,6 +20,11 @@ import { ListeCauseComponent } from './Cause/liste-cause/liste-cause.component';
 import { ListeInterventionComponent } from './Interventions/liste-intervention/liste-intervention.component';
 import { AjouterInterventionComponent } from './Interventions/ajouter-intervention/ajouter-intervention.component';
 
+
+import { AjouterFactureComponent } from './Facture/ajouter-facture/ajouter-facture.component';
+import { ListeFactureComponent } from './Facture/liste-facture/liste-facture.component';
+
+
 const routes: Routes = [
  
   {path:"societe", component:SocieteComponent},
@@ -51,6 +56,13 @@ const routes: Routes = [
   {path:"ajouter_intervention",component:AjouterInterventionComponent},
   {path:"liste_interventions",component:ListeInterventionComponent},
   {path: "update_intervention/:id", component: AjouterInterventionComponent },
+
+
+
+  
+  {path:"ajouter_facture",component:AjouterFactureComponent},
+  {path:"liste_facture",component:ListeFactureComponent},
+  {path: "update_facture/:id", component: AjouterFactureComponent },
 
 
 ];
