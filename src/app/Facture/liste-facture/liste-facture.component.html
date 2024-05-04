@@ -22,7 +22,7 @@
 
                         <ng-container matColumnDef="date">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Date</th>
-                            <td mat-cell *matCellDef="let facture">{{ facture.date }}</td>
+                            <td mat-cell *matCellDef="let facture">{{ facture.date| date:'yyyy-MM-dd' }}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="client">
@@ -44,11 +44,7 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Total TTC </th>
                             <td mat-cell *matCellDef="let facture"> {{facture.totalTTC}}</td>
                         </ng-container>
-                        <ng-container matColumnDef="intervention">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Intervention </th>
-                            <td mat-cell *matCellDef="let facture"> {{facture.intervention}}</td>
-                        </ng-container>
-
+                      
 
                         <ng-container matColumnDef="actions">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>

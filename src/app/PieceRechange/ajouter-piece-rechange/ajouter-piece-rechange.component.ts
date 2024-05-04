@@ -6,6 +6,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
+import { CategoriePiece } from '../../CategoriePiece/categorie-piece.model';
+import { environment } from '../../../assets/environments/environment';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -16,8 +20,11 @@ import { NgToastService } from 'ng-angular-popup';
 export class AjouterPieceRechangeComponent implements OnInit {
   pieceRechangeForm: FormGroup;
   lastCodeNumber: number = 0;
+  categoriepieces!: CategoriePiece[];
+  private apiServerUrl = environment.apiBaseUrl;
 
   constructor(
+    private http: HttpClient,
     private formBuilder: FormBuilder,
     private pieceRechangeService: PieceRechangeService,
     private toastService: NgToastService,
@@ -28,7 +35,8 @@ export class AjouterPieceRechangeComponent implements OnInit {
       codePiece: '', // Champ vide initialement
       desPiece: ['', Validators.required],
       prixAchat: ['', [Validators.required, this.validateNegativePrice]],
-      tauxTVA: ['', [Validators.required, Validators.min(0), Validators.max(19)]]
+      tauxTVA: ['', [Validators.required, Validators.min(0), Validators.max(19)]],
+      categoriePiece: ['', Validators.required],
     });
   }
 
@@ -38,6 +46,9 @@ export class AjouterPieceRechangeComponent implements OnInit {
     } else {
       this.generateCodePiece();
     }
+    this.getCategoriespieces().subscribe(categoriepieces => {
+      this.categoriepieces = categoriepieces;
+    });
   }
 
   generateCodePiece(): void {
@@ -49,6 +60,9 @@ export class AjouterPieceRechangeComponent implements OnInit {
       const newCode = `code-${(this.lastCodeNumber + 1).toString().padStart(2, '0')}`;
       this.pieceRechangeForm.patchValue({ codePiece: newCode });
     });
+  }
+  getCategoriespieces(): Observable<CategoriePiece[]> {
+    return this.http.get<CategoriePiece[]>(this.apiServerUrl + '/categoriespieces/all');
   }
 
   onFormSubmit(): void {
@@ -63,7 +77,9 @@ export class AjouterPieceRechangeComponent implements OnInit {
           this.data.id,
           this.pieceRechangeForm.value.desPiece,
           this.pieceRechangeForm.value.prixAchat,
-          this.pieceRechangeForm.value.tauxTVA
+          this.pieceRechangeForm.value.tauxTVA,
+          this.pieceRechangeForm.value.categoriePiece
+
         ).subscribe({
           next: () => {
             alert('Pièce de rechange modifiée avec succès');

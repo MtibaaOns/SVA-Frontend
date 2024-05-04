@@ -23,7 +23,7 @@ export class DemIntervService {
     return this.http.post<Demande>(`${this.apiServerUrl}/Demandes/add`, demande);
   }
 
-  public updateDemande(demande: Demande, numDem: number, statut: string, titre: string, priorite: string, dateFin: string, dateDeb: string, description: string): Observable<Demande> {
+  public updateDemande(demande: Demande, numDem: number, statut: string, titre: string, priorite: string, dateDeb: string, dateFin: string, description: string): Observable<Demande> {
     return this.http.put<Demande>(`${this.apiServerUrl}/Demandes/update/${numDem}?statut=${statut}&titre=${titre}&priorite=${priorite}&dateFin=${dateFin}&dateDeb=${dateDeb}&description=${description}`, demande);
   }
   public deleteDemande(numDem: number): Observable<void> {

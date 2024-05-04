@@ -6,6 +6,7 @@ export interface Facture {
     totalHT: number;
     tva: number;
     totalTTC: number;
-    intervention:string
+ 
+
 }
 

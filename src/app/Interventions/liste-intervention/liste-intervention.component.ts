@@ -16,7 +16,7 @@ export class ListeInterventionComponent implements OnInit {
   public dataSource!: MatTableDataSource<Intervention>;
   public interventions!: Intervention[];
 
-  displayedColumns: string[] = ['code', 'dateDeb', 'dateFin', 'duree', 'observation', 'cloturer', 'montantHT', 'facturer', 'cause','technicien', 'actions'];
+  displayedColumns: string[] = ['code', 'dateDeb', 'dateFin', 'duree', 'observation', 'cloturer', 'montantHT', 'facturer', 'cause','technicien','client', 'actions'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 

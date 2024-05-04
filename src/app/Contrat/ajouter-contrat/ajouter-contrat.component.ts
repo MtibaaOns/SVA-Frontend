@@ -35,6 +35,7 @@ export class AjouterContratComponent implements OnInit {
   lastCodeNumber: number = 0;
 
   constructor(
+    
     private http: HttpClient,
     private router: Router,
     private _fb: FormBuilder,

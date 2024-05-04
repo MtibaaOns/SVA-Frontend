@@ -42,11 +42,10 @@
                         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                         <mat-datepicker #picker1></mat-datepicker>
                         <mat-error *ngIf="demandeForm.get('dateDeb')?.hasError('required')">Ce champ est obligatoire</mat-error>
-                        
                         <mat-error *ngIf="demandeForm.get('dateDeb')?.hasError('dateRangeError')">La date de début doit être antérieure à la date de fin</mat-error>
                         <mat-error *ngIf="demandeForm.get('dateDeb')?.hasError('dateEqualityError')">La date de début ne peut pas être égale à la date de fin</mat-error>
                     </mat-form-field>
-
+                    
                     <mat-form-field appearance="fill">
                         <mat-label>Date de fin</mat-label>
                         <input matInput [matDatepicker]="picker2" placeholder="Date de fin" formControlName="dateFin">

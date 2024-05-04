@@ -13,7 +13,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrl: './liste-piece-rechange.component.css'
 })
 export class ListePieceRechangeComponent implements OnInit{
-  displayedColumns: string[] = ['codePiece', 'desPiece', 'prixAchat', 'tauxTVA', 'actions'];
+  displayedColumns: string[] = ['codePiece', 'desPiece', 'prixAchat', 'tauxTVA','categoriePiece', 'actions'];
   public piecesRechange: MatTableDataSource<PieceRechange> = new MatTableDataSource<PieceRechange>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -76,7 +76,7 @@ export class ListePieceRechangeComponent implements OnInit{
       data: pieceRechange
     });
 
-    this.pieceRechangeService.updatePieceRechange(pieceRechange, pieceRechange.id, pieceRechange.desPiece, pieceRechange.prixAchat, pieceRechange.tauxTVA);
+    this.pieceRechangeService.updatePieceRechange(pieceRechange, pieceRechange.id, pieceRechange.desPiece, pieceRechange.prixAchat, pieceRechange.tauxTVA,pieceRechange.categoriePiece);
     this.getAllPiecesRechanges();
 
     dialogRef.afterClosed().subscribe({

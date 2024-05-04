@@ -20,8 +20,7 @@
                         <input matInput [matDatepicker]="picker1" placeholder="Date de début" formControlName="dateDeb">
                         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                         <mat-datepicker #picker1></mat-datepicker>
-                        <mat-error *ngIf="interventionForm.get('dateDeb')?.hasError('dateRangeError')">La date de début doit être antérieure à la date de fin</mat-error>
-                        <mat-error *ngIf="interventionForm.get('dateDeb')?.hasError('dateEqualityError')">La date de début ne peut pas être égale à la date de fin</mat-error>
+                        <mat-error *ngIf="interventionForm.get('dateDeb')?.hasError('dateRangeError')">La date de début doit être antérieure à la date de fin</mat-error><mat-error *ngIf="interventionForm.get('dateDeb')?.hasError('dateEqualityError')">La date de début ne peut pas être égale à la date de fin</mat-error>
                     </mat-form-field>
                     
                     <mat-form-field appearance="fill">
@@ -62,12 +61,11 @@
 
                     <mat-form-field appearance="fill">
                         <mat-label>Facturée</mat-label>
-                        <mat-select formControlName="facturer">
-                          <mat-option [value]="true">Oui</mat-option>
+                        <mat-select formControlName="facturer" readonly="true">
                           <mat-option [value]="false">Non</mat-option>
-                        </mat-select>
+                      </mat-select>
                         <mat-error *ngIf="interventionForm.get('facturer')?.hasError('required')">Ce champ est obligatoire</mat-error>
-                    </mat-form-field>
+                      </mat-form-field>
 
                     <mat-form-field appearance="fill">
                         <mat-label>Cause</mat-label>
@@ -83,6 +81,14 @@
                         </mat-select>
                         <mat-error *ngIf="interventionForm.get('technicien')?.hasError('required')">Ce champ est obligatoire</mat-error>
                       </mat-form-field>
+
+                      <mat-form-field appearance="fill">
+                        <mat-label>Client</mat-label>
+                        <mat-select formControlName="client">
+                            <mat-option *ngFor="let client of clients" [value]="client.nom">{{ client.nom }}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="interventionForm.get('client')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
 
 
 

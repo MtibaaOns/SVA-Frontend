@@ -4,4 +4,5 @@ export interface PieceRechange {
     desPiece: string;
     prixAchat: number;
     tauxTVA: number;
+    categoriePiece:string;
 }

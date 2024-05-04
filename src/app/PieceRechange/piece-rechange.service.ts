@@ -24,8 +24,8 @@ export class PieceRechangeService {
     return this.http.post<PieceRechange>(`${this.apiServerUrl}/piecesrechanges/add`, pieceRechange);
   }
 
-  public updatePieceRechange(pieceRechange: PieceRechange, id: number, desPiece: string, prixAchat: number, tauxTVA: number): Observable<PieceRechange> {
-    return this.http.put<PieceRechange>(`${this.apiServerUrl}/piecesrechanges/update/${id}?desPiece=${desPiece}&prixAchat=${prixAchat}&tauxTVA=${tauxTVA}`, pieceRechange);
+  public updatePieceRechange(pieceRechange: PieceRechange, id: number, desPiece: string, prixAchat: number, tauxTVA: number,categoriePiece:string): Observable<PieceRechange> {
+    return this.http.put<PieceRechange>(`${this.apiServerUrl}/piecesrechanges/update/${id}?desPiece=${desPiece}&prixAchat=${prixAchat}&tauxTVA=${tauxTVA}&categoriePiece=${categoriePiece}`, pieceRechange);
   }
 
   public deletePieceRechange(id: number): Observable<void> {

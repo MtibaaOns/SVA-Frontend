@@ -28,13 +28,30 @@
             <mat-error *ngIf="pieceRechangeForm.get('prixAchat')?.hasError('required')">Ce champ est obligatoire</mat-error>
           </mat-form-field>
       </div>
+      <div class="row">
       <mat-form-field appearance="outline">
         <mat-label>TVA (%)</mat-label>
         <input matInput type="number" formControlName="tauxTVA">
         <mat-error *ngIf="pieceRechangeForm.get('tauxTVA')?.hasError('required')">Ce champ est obligatoire</mat-error>
       </mat-form-field>
     </div>
+    <div class="row">
+      <mat-form-field appearance="fill">
+        <mat-label>categoriePiece</mat-label>
+        <mat-select formControlName="categoriePiece">
+            <mat-option *ngFor="let categoriePiece of categoriepieces" [value]="categoriePiece.desCategorie">{{ categoriePiece.desCategorie }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="pieceRechangeForm.get('categoriePiece')?.hasError('required')">Ce champ est obligatoire</mat-error>
+    </mat-form-field>
+  </div>
+
+
+
+    </div>
+    
   
+
+
   <div mat-dialog-actions class="action">
     <button mat-raised-button [mat-dialog-close]="false">Retour</button>
     <button mat-raised-button color="primary" type="submit">{{ data ? 'Modifier' : 'Enregistrer' }}</button>

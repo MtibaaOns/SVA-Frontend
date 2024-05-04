@@ -28,11 +28,11 @@
         
         <ng-container matColumnDef="dateDebut">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> DateDebut</th>
-  <td mat-cell *matCellDef="let contrat">{{ contrat.dateDebut}}</td>
+  <td mat-cell *matCellDef="let contrat">{{ contrat.dateDebut| date:'yyyy-MM-dd'}}</td>
         </ng-container>
         <ng-container matColumnDef="dateFin">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> DateFin</th>
-    <td mat-cell *matCellDef="let contrat">{{ contrat.dateFin}}</td>
+    <td mat-cell *matCellDef="let contrat">{{ contrat.dateFin| date:'yyyy-MM-dd'}}</td>
           </ng-container>
         <ng-container matColumnDef="nbInterMois">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> NbMois</th>

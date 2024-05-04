@@ -71,8 +71,8 @@
                             <mat-label>Client</mat-label>
                             <mat-select formControlName="client">
                                 <mat-option *ngFor="let client of clients" [value]="client.nom">{{ client.nom }}</mat-option>
-                                <mat-error *ngIf="contratForm.get('client')?.hasError('required')">Ce champ est obligatoire</mat-error>
                             </mat-select>
+                            <mat-error *ngIf="contratForm.get('client')?.hasError('required')">Ce champ est obligatoire</mat-error>
                         </mat-form-field>
                         
                         

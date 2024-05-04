@@ -1,11 +1,11 @@
 export interface Contrat{
     numcontrat:number;
     code:string;
-    dateDebut:string;
-    dateFin:string;
+    dateDebut:Date;
+    dateFin:Date;
     nbInterMois:number;
     nbInterAnnee:number;
-    mtForfaitaire:String;
+    mtForfaitaire:string;
     client:string;
     
 }

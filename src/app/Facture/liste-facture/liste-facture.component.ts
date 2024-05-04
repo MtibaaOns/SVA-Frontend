@@ -16,7 +16,7 @@ export class ListeFactureComponent implements OnInit {
   public dataSource!: MatTableDataSource<Facture>;
   public factures!: Facture[];
 
-  displayedColumns: string[] = ['code', 'date', 'client', 'totalHT', 'tva', 'totalTTC','intervention', 'actions'];
+  displayedColumns: string[] = ['code', 'date', 'client', 'totalHT', 'tva', 'totalTTC', 'actions'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 

@@ -23,8 +23,8 @@ export class FactureService {
   public addFacture(facture: Facture): Observable<Facture> {
     return this.http.post<Facture>(`${this.apiServerUrl}/Factures/add`, facture);
   }
-  public updateFacture(facture: Facture, id: number, date: Date, client: string, totalHT: number,totalTTC: number, tva: number, intervention: string): Observable<Facture> {
-    return this.http.put<Facture>(`${this.apiServerUrl}/Factures/update/${id}?date=${date}&client=${client}&totalHT=${totalHT}&totalTTC=${totalTTC}&tva=${tva}&intervention=${intervention}`, facture); 
+  public updateFacture(facture: Facture, id: number, date: string, client: string, totalHT: number,totalTTC: number, tva: number): Observable<Facture> {
+    return this.http.put<Facture>(`${this.apiServerUrl}/Factures/update/${id}?date=${date}&client=${client}&totalHT=${totalHT}&totalTTC=${totalTTC}&tva=${tva}`, facture); 
   }
 
 

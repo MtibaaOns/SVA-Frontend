@@ -93,7 +93,7 @@ export class AjouterDemandeComponent implements OnInit {
   modifier() {
     const demande = this.demandeForm.value;
     const numDem = this.demandeIdUpdate;
-    const { dateDeb, dateFin, statut, titre, description ,priorite } = demande;
+    const {  statut, titre,priorite,dateDeb, dateFin, description  } = demande;
   
     this.demandeService.updateDemande(demande, numDem,statut,titre,priorite, dateDeb, dateFin,  description)
       .subscribe(res => {
@@ -105,11 +105,11 @@ export class AjouterDemandeComponent implements OnInit {
   fillFormToUpdate(demande: Demande) {
     this.demandeForm.patchValue({
       code: demande.code,
-      dateDeb: demande.dateDeb,
-      dateFin: demande.dateFin,
       statut: demande.statut,
       titre: demande.titre,
       priorite : demande.priorite,
+      dateDeb: demande.dateDeb,
+      dateFin: demande.dateFin,
       description: demande.description,
      
     });

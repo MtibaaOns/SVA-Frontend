@@ -23,7 +23,8 @@ export class ContratService {
     return this.http.post<Contrat>(`${this.apiServerUrl}/Contrats/add`, contrat);
   }
 
-  public updateContrat(contrat: Contrat, numcontrat: number, dateDebut: Date, dateFin: string, nbInterMois: number, nbInterAnnee: number, mtForfaitaire: string, client:string): Observable<Contrat> {
+  public updateContrat(contrat: Contrat, numcontrat: number, dateDebut: Date, dateFin: Date, nbInterMois: number, nbInterAnnee: number, mtForfaitaire: string, client:string): Observable<Contrat> {
+    
     return this.http.put<Contrat>(`${this.apiServerUrl}/Contrats/update/${numcontrat}?dateDebut=${dateDebut}&dateFin=${dateFin}&nbInterMois=${nbInterMois}&nbInterAnnee=${nbInterAnnee}&mtForfaitaire=${mtForfaitaire}&client=${client}`, contrat);
   }
   public deleteContrat(numcontrat: number): Observable<void> {

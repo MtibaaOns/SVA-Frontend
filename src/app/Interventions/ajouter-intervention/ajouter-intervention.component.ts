@@ -9,6 +9,7 @@ import { environment } from '../../../assets/environments/environment';
 import { Observable, map } from 'rxjs';
 import { Cause } from '../../Cause/cause.model';
 import { Utilisateur } from '../../parametrages/utilisateur/utilisateur';
+import { Client } from '../../liste-client/liste-client';
 
 @Component({
   selector: 'app-ajouter-intervention',
@@ -16,10 +17,10 @@ import { Utilisateur } from '../../parametrages/utilisateur/utilisateur';
   styleUrls: ['./ajouter-intervention.component.css']
 })
 export class AjouterInterventionComponent implements OnInit {
-  
   dureeOptions: string[] = ['30 minutes', '1 heure', '2 heures', '3 heures', '4 heures', '5 heures', '6 heures', '7 heures', '8 heures', '9 heures', '10 heures', '11 heures', '12 heures', '13 heures', '14 heures', '15 heures', '16 heures', '17 heures', '18 heures', '19 heures', '20 heures', '21 heures', '22 heures', '23 heures', '24 heures'];
   causes!: Cause[];
   utilisateurs!: Utilisateur[];
+  clients!: Client[];
   private apiServerUrl = environment.apiBaseUrl;
   interventionForm!: FormGroup;
   public interventionIdUpdate!: number;
@@ -47,6 +48,7 @@ export class AjouterInterventionComponent implements OnInit {
       facturer: [false, Validators.required],
       cause: ['', Validators.required],
       technicien: ['', Validators.required],
+      client: ['', Validators.required],
     });
 
     this.activateactiveroute.params.subscribe(val => {
@@ -72,6 +74,9 @@ export class AjouterInterventionComponent implements OnInit {
      
     this.getUtilisateurs().subscribe(utilisateurs => {
       this.utilisateurs = utilisateurs;
+    });
+    this.getClients().subscribe(clients => {
+      this.clients = clients;
     });
     this.interventionForm.setValidators(this.validateRange.bind(this));
   }
@@ -103,9 +108,9 @@ export class AjouterInterventionComponent implements OnInit {
   modifier() {
     const intervention = this.interventionForm.value;
     const id = this.interventionIdUpdate;
-    const { dateDeb, dateFin, duree, observation, cloturer, montantHT, facturer, cause, technicien } = intervention;
+    const { dateDeb, dateFin, duree, observation, cloturer, montantHT, facturer, cause, technicien,client } = intervention;
 
-    this.interventionService.updateIntervention(intervention, id, dateDeb, dateFin, duree, observation, cloturer, montantHT, facturer, cause, technicien)
+    this.interventionService.updateIntervention(intervention, id, dateDeb, dateFin, duree, observation, cloturer, montantHT, facturer, cause, technicien,client)
       .subscribe(res => {
         this.toastService.success({ detail: 'SUCCESS', summary: "Les détails d'intervention ont été mis à jour avec succès", duration: 3000 });
         this.router.navigate(['liste_interventions']);
@@ -124,7 +129,8 @@ export class AjouterInterventionComponent implements OnInit {
       montantHT: intervention.montantHT,
       facturer: intervention.facturer,
       cause: intervention.cause,
-      technicien: intervention.technicien
+      technicien: intervention.technicien,
+      client:intervention.client
     });
   }
 
@@ -148,6 +154,9 @@ export class AjouterInterventionComponent implements OnInit {
       map(utilisateurs => utilisateurs.filter(utilisateur => utilisateur.role === 'Tech'))
     );
   }
+  getClients(): Observable<Client[]> {
+    return this.http.get<Client[]>(this.apiServerUrl + '/Clients/all');
+  }
 
   // Validation personnalisée pour la date de début et de fin
   validateRange(control: AbstractControl): { [key: string]: boolean } | null {
@@ -162,11 +171,8 @@ export class AjouterInterventionComponent implements OnInit {
         control.get('dateDeb')?.setErrors({ 'dateRangeError': true });
         control.get('dateFin')?.setErrors({ 'dateRangeError': true });
         return { 'dateRangeError': true };
-      } else if (startDateTime === endDateTime) {
-        control.get('dateDeb')?.setErrors({ 'dateEqualityError': true });
-        control.get('dateFin')?.setErrors({ 'dateEqualityError': true });
-        return { 'dateEqualityError': true };
-      } else {
+      } 
+       else {
         control.get('dateDeb')?.setErrors(null);
         control.get('dateFin')?.setErrors(null);
       }
@@ -174,4 +180,5 @@ export class AjouterInterventionComponent implements OnInit {
 
     return null;
   }
+
 }
