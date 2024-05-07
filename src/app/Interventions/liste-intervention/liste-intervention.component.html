@@ -83,6 +83,12 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>client</th>
                             <td mat-cell *matCellDef="let intervention">{{ intervention.client }}</td>
                         </ng-container>
+                        
+
+                        <ng-container matColumnDef="pieceRechange">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>pieceRechange</th>
+                            <td mat-cell *matCellDef="let intervention">{{ intervention.pieceRechange }}</td>
+                        </ng-container>
 
                         <!-- Actions Column -->
                         <ng-container matColumnDef="actions">

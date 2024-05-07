@@ -192,7 +192,8 @@ export class AjouterFactureComponent implements OnInit {
   updateInterventionsAsFactured() {
     this.selectedInterventions.forEach(intervention => {
       intervention.facturer = true;
-      this.interventionService.updateIntervention(intervention, intervention.id, intervention.dateDeb, intervention.dateFin, intervention.duree, intervention.observation, intervention.cloturer, intervention.montantHT, intervention.facturer, intervention.cause, intervention.technicien, intervention.client).subscribe();
+      this.interventionService.updateIntervention(intervention, intervention.id, intervention.dateDeb, intervention.dateFin, intervention.duree, intervention.observation, intervention.cloturer, intervention.montantHT, intervention.facturer, intervention.cause, intervention.technicien, intervention.client,intervention.pieceRechange).subscribe();
     });
   }
+  
 }

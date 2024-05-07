@@ -6,6 +6,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 @Component({
   selector: 'app-liste-client',
   templateUrl: './liste-client.component.html',
@@ -19,7 +20,7 @@ export class ListeClientComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private clientService : ClientService, private router: Router) { }
+  constructor(private clientService : ClientService, private router: Router,   private toastService: NgToastService) { }
 
   ngOnInit() {
     this.getAllClients();
@@ -45,15 +46,17 @@ export class ListeClientComponent implements OnInit {
   }
 
   OndeleteClient(id: number): void {
-    this.clientService.deleteClient(id).subscribe({
-      next: () => {
-        console.log("Client supprimée avec succès.");
-        this.getAllClients();
-      },
-      error: (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    });
+    if (confirm("Voulez-vous vraiment supprimer ce client ?")) {
+      this.clientService.deleteClient(id).subscribe({
+        next: () => {
+          this.toastService.success({ detail: "Client supprimé avec succès", summary: "Succès", duration: 3000 });
+          this.getAllClients();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastService.error({ detail: error.message, summary: "Erreur", duration: 3000 });
+        }
+      });
+    }
   }
 
   applyFilter(event: Event) {

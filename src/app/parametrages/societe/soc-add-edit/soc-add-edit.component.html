@@ -8,26 +8,36 @@
       <mat-form-field appearance="outline">
         <mat-label>RaisonSocial</mat-label>
         <input matInput type="text" formControlName="raisonSocial">
+        <mat-error *ngIf="socForm.get('raisonSocial')?.hasError('required') && socForm.get('raisonSocial')?.touched">Ce champ est obligatoire.</mat-error>
+        <mat-error *ngIf="socForm.get('raisonSocial')?.hasError('minlength') && socForm.get('raisonSocial')?.touched">Le champ "RaisonSocial" doit avoir au moins 3 caractères.</mat-error>
+        <mat-error *ngIf="socForm.get('raisonSocial')?.hasError('notUnique')">Cette raison sociale est déjà utilisée.</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Adresse</mat-label>
         <input matInput formControlName="adresse">
+        <mat-error *ngIf="socForm.get('adresse')?.hasError('required') && socForm.get('adresse')?.touched">Ce champ est obligatoire.</mat-error>
       </mat-form-field>
     </div>
     <div class="row">
       <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
         <input matInput type="email" placeholder="Ex. test@gmail.com" formControlName="email">
-        <mat-error *ngIf="socForm.get('email')?.hasError('email')">Veuillez entrer un email valide.</mat-error>
-        <mat-error *ngIf="emailExists">Cet email est déjà utilisé.</mat-error>
+        <mat-error *ngIf="socForm.get('email')?.hasError('required') && socForm.get('email')?.touched">Ce champ est obligatoire.</mat-error>
+        <mat-error *ngIf="socForm.get('email')?.hasError('email') && socForm.get('email')?.touched">Veuillez entrer un email valide.</mat-error>
+        <mat-error *ngIf="socForm.get('email')?.hasError('notUnique')">Cet email est déjà utilisé.</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Tel</mat-label>
         <input matInput type="number" formControlName="tel">
+        <mat-error *ngIf="socForm.get('tel')?.hasError('required') && socForm.get('tel')?.touched">Ce champ est obligatoire.</mat-error>
+        <mat-error *ngIf="socForm.get('tel')?.hasError('notUnique')">Ce numéro de téléphone est déjà utilisé.</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>MF</mat-label>
         <input matInput formControlName="mf">
+        <mat-error *ngIf="socForm.get('mf')?.hasError('required') && socForm.get('mf')?.touched">Ce champ est obligatoire.</mat-error>
+        <mat-error *ngIf="socForm.get('mf')?.hasError('minlength') && socForm.get('mf')?.touched">Le matricule fiscal doit avoir au moins 7 chiffres.</mat-error>
+        <mat-error *ngIf="socForm.get('mf')?.hasError('notUnique')">Ce matricule fiscal est déjà utilisé.</mat-error>
       </mat-form-field>
     </div>
   </div>

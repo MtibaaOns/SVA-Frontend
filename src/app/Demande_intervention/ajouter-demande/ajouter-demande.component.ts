@@ -70,17 +70,18 @@ export class AjouterDemandeComponent implements OnInit {
   
   onFormSubmit() {
     if (this.demandeForm.invalid) {
-      this.toastService.error({ detail: 'Erreur', summary: 'Veillez remplir le formulaire de nouveau', duration: 3000 });
+      this.toastService.error({ detail: 'Erreur', summary: 'Veuillez remplir le formulaire de nouveau', duration: 3000 });
     } else {
       // Générer le code de l'intervention
       this.generateCode();
-    
+  
       if (this.isUpdateActive) {
         this.modifier();
       } else {
         this.demandeService.addDemande(this.demandeForm.value).subscribe({
           next: (res: any) => {
-            this.toastService.success({detail:"Succes",summary:"intervention ajouté",duration:3000});
+            this.toastService.success({ detail: "Succès", summary: "Demande ajoutée", duration: 3000 });
+            this.router.navigate(['liste_demande']); // Redirigez vers la liste des demandes
             this.demandeForm.reset();
           },
           error: (error: any) => {

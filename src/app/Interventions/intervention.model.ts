@@ -12,4 +12,5 @@ export interface Intervention {
     technicien:string
     client:string
     selected?: boolean;
+    pieceRechange:string
   }

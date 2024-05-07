@@ -24,8 +24,8 @@ export class InterventionService {
     return this.http.post<Intervention>(`${this.apiServerUrl}/Interventions/add`, intervention);
   }
 
-  public updateIntervention(intervention: Intervention, id: number, dateDeb: string, dateFin: string, duree: string, observation: string, cloturer: boolean, montantHT: number, facturer: boolean, cause: string,technicien:string,client:string): Observable<Intervention> {
-    return this.http.put<Intervention>(`${this.apiServerUrl}/Interventions/update/${id}?dateDeb=${dateDeb}&dateFin=${dateFin}&duree=${duree}&observation=${observation}&cloturer=${cloturer}&montantHT=${montantHT}&facturer=${facturer}&cause=${cause}&technicien=${technicien}&client=${client}`, intervention);
+  public updateIntervention(intervention: Intervention, id: number, dateDeb: string, dateFin: string, duree: string, observation: string, cloturer: boolean, montantHT: number, facturer: boolean, cause: string,technicien:string,client:string,pieceRechange:string): Observable<Intervention> {
+    return this.http.put<Intervention>(`${this.apiServerUrl}/Interventions/update/${id}?dateDeb=${dateDeb}&dateFin=${dateFin}&duree=${duree}&observation=${observation}&cloturer=${cloturer}&montantHT=${montantHT}&facturer=${facturer}&cause=${cause}&technicien=${technicien}&client=${client}&pieceRechange=${pieceRechange}`, intervention);
   }
 
   public deleteIntervention(id: number): Observable<void> {

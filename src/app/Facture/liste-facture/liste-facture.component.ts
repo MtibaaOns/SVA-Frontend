@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { FactureService } from '../facture.service';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-liste-facture',
@@ -20,7 +21,7 @@ export class ListeFactureComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private factureService: FactureService, private router: Router) { }
+  constructor(private factureService: FactureService, private router: Router, private toastService: NgToastService)  { }
 
   ngOnInit() {
     this.getAllFactures();
@@ -55,14 +56,15 @@ export class ListeFactureComponent implements OnInit {
   }
 
   onDeleteFacture(id: number): void {
-    this.factureService.deleteFacture(id).subscribe({
-      next: () => {
-        console.log("Facture supprimée avec succès.");
-        this.getAllFactures();
-      },
-      error: (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    });
-  }
-}
+    if (confirm("Voulez-vous vraiment supprimer cette facture ?")) {
+      this.factureService.deleteFacture(id).subscribe({
+        next: () => {
+          this.toastService.success({ detail: "Facture supprimée avec succès.", summary: "Facture supprimée", duration: 3000 }); // Utilisation du service de toast pour afficher une notification de succès
+          this.getAllFactures();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastService.error({ detail: error.message, summary: "Erreur lors de la suppression", duration: 3000 }); // Utilisation du service de toast pour afficher une notification d'erreur
+        }
+      });
+    }
+  }}

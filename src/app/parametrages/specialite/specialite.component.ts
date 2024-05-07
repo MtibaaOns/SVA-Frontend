@@ -7,6 +7,7 @@ import { SpecialiteService } from './specialite.service';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-specialite',
@@ -21,7 +22,7 @@ export class SpecialiteComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private _dialog: MatDialog, private specialitesService: SpecialiteService) {}
+  constructor(private _dialog: MatDialog, private specialitesService: SpecialiteService,   private toastService: NgToastService) {}
 
   ngOnInit(): void {
     this.getAllSpecialites();
@@ -63,15 +64,17 @@ export class SpecialiteComponent implements OnInit {
   }
 
   OndeleteSpecialite(codeSpec: number): void {
-    this.specialitesService.deleteSpecialite(codeSpec).subscribe({
-      next: () => {
-        console.log("Spécialité supprimée avec succès.");
-        this.getAllSpecialites();
-      },
-      error: (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    });
+    if (confirm("Voulez-vous vraiment supprimer cette spécialité ?")) {
+      this.specialitesService.deleteSpecialite(codeSpec).subscribe({
+        next: () => {
+          this.toastService.success({ detail: "Spécialité supprimée avec succès", summary: "Succès", duration: 3000 });
+          this.getAllSpecialites();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastService.error({ detail: error.message, summary: "Erreur", duration: 3000 });
+        }
+      });
+    }
   }
 
   openEditForm(specialite: Specialite): void {

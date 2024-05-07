@@ -6,6 +6,7 @@ import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ContratService } from '../contrat.service';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-liste-contrat',
@@ -20,7 +21,7 @@ export class ListeContratComponent implements OnInit{
   displayedColumns: string[] = ['code', 'dateDebut', 'dateFin', 'nbInterMois', 'nbInterAnnee', 'mtForfaitaire','client','actions'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private contratService : ContratService, private route: Router) { }
+  constructor(private contratService : ContratService, private route: Router, private toastService: NgToastService) { }
 
   ngOnInit() {
     this.getAllContrats();
@@ -55,15 +56,17 @@ export class ListeContratComponent implements OnInit{
   }
 
   OndeleteContrat(numcontrat: number): void {
-    this.contratService.deleteContrat(numcontrat).subscribe({
-      next: () => {
-        console.log("Contrat supprimée avec succès.");
-        this.getAllContrats();
-      },
-      error: (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    });
+    if (confirm("Voulez-vous vraiment supprimer ce contrat ?")) {
+      this.contratService.deleteContrat(numcontrat).subscribe({
+        next: () => {
+          this.toastService.success({ detail: "Contrat supprimé avec succès", summary: "Succès", duration: 3000 });
+          this.getAllContrats();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastService.error({ detail: error.message, summary: "Erreur", duration: 3000 });
+        }
+      });
+    }
   }
 
 

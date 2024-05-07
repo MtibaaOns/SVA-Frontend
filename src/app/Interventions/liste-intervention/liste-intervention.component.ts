@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { InterventionService } from '../intervention.service';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-liste-intervention',
@@ -16,11 +17,11 @@ export class ListeInterventionComponent implements OnInit {
   public dataSource!: MatTableDataSource<Intervention>;
   public interventions!: Intervention[];
 
-  displayedColumns: string[] = ['code', 'dateDeb', 'dateFin', 'duree', 'observation', 'cloturer', 'montantHT', 'facturer', 'cause','technicien','client', 'actions'];
+  displayedColumns: string[] = ['code', 'dateDeb', 'dateFin', 'duree', 'observation', 'cloturer', 'montantHT', 'facturer', 'cause','technicien','client','pieceRechange', 'actions'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private interventionService: InterventionService, private route: Router) { }
+  constructor(private interventionService: InterventionService, private route: Router,  private toastService: NgToastService) { }
 
   ngOnInit() {
     this.getAllInterventions();
@@ -55,14 +56,16 @@ export class ListeInterventionComponent implements OnInit {
   }
 
   OndeleteIntervention(id: number): void {
-    this.interventionService.deleteIntervention(id).subscribe({
-      next: () => {
-        console.log("Intervention supprimée avec succès.");
-        this.getAllInterventions();
-      },
-      error: (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    });
+    if (confirm("Voulez-vous vraiment supprimer cette intervention ?")) {
+      this.interventionService.deleteIntervention(id).subscribe({
+        next: () => {
+          this.toastService.success({ detail: "Intervention supprimée avec succès", summary: "Succès", duration: 3000 });
+          this.getAllInterventions();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastService.error({ detail: error.message, summary: "Erreur", duration: 3000 });
+        }
+      });
+    }
   }
 }

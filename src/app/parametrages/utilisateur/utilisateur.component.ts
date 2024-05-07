@@ -7,6 +7,7 @@ import { UtilAddEditComponent } from './util-add-edit/util-add-edit.component';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-utilisateur',
@@ -22,7 +23,8 @@ export class UtilisateurComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private _dialog: MatDialog, private utilisateurService: UtilisateurService) {}
+  hide = true;
+  constructor(private _dialog: MatDialog, private utilisateurService: UtilisateurService,  private toastService: NgToastService) {}
 
   ngOnInit(): void {
     this.getAllUtilisateurs();
@@ -64,17 +66,18 @@ export class UtilisateurComponent implements OnInit {
   }
 
   OndeleteUtilisateur(id: number): void {
-    this.utilisateurService.deleteUtilisateur(id).subscribe({
-      next: () => {
-        console.log("Utilisateur supprimée avec succès.");
-        this.getAllUtilisateurs();
-      },
-      error: (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    });
+    if (confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) {
+      this.utilisateurService.deleteUtilisateur(id).subscribe({
+        next: () => {
+          this.toastService.success({ detail: "Utilisateur supprimé avec succès", summary: "Succès", duration: 3000 });
+          this.getAllUtilisateurs();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastService.error({ detail: error.message, summary: "Erreur", duration: 3000 });
+        }
+      });
+    }
   }
-
   openEditForm(utilisateur: Utilisateur): void {
     const dialogRef = this._dialog.open(UtilAddEditComponent, {
       data: utilisateur 

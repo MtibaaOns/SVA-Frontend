@@ -80,26 +80,27 @@ export class AjouterContratComponent implements OnInit {
 
   onFormSubmit() {
     if (this.contratForm.invalid) {
-      this.toastService.error({ detail: 'Erreur', summary: 'Veillez remplir le formulaire de nouveau', duration: 3000 });
+      this.toastService.error({ detail: 'Erreur', summary: 'Veuillez remplir le formulaire de nouveau', duration: 3000 });
     } else {
-    
-    // Générer le code de l'intervention
-    this.generateCode();
-
-    if (this.isUpdateActive) {
-      this.modifier();
-    } else {
-      this.contratService.addContrat(this.contratForm.value).subscribe({
-        next: (res: any) => {
-          this.toastService.success({ detail: "Succes", summary: "Contrat ajouté", duration: 3000 });
-          this.contratForm.reset();
-        },
-        error: (error: any) => {
-          console.error(error);
-        }
-      });
+      // Générer le code du contrat
+      this.generateCode();
+  
+      if (this.isUpdateActive) {
+        this.modifier();
+      } else {
+        this.contratService.addContrat(this.contratForm.value).subscribe({
+          next: (res: any) => {
+            this.toastService.success({ detail: "Succès", summary: "Contrat ajouté", duration: 3000 });
+            this.router.navigate(['liste_contrat']); // Redirigez vers la liste des contrats
+            this.contratForm.reset();
+          },
+          error: (error: any) => {
+            console.error(error);
+          }
+        });
+      }
     }
-  }}
+  }
 
   modifier() {
     const contrat = this.contratForm.value;

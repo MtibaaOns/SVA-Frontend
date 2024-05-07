@@ -7,6 +7,7 @@ import { AjouterCategoriePieceComponent } from '../ajouter-categorie-piece/ajout
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-liste-categorie-piece',
@@ -20,7 +21,7 @@ export class ListeCategoriePieceComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private categoriePieceService: CategoriePieceService) {}
+  constructor(private dialog: MatDialog, private categoriePieceService: CategoriePieceService,  private toastService: NgToastService) {}
 
   ngOnInit(): void {
     this.getAllCategoriesPiece();
@@ -62,15 +63,17 @@ export class ListeCategoriePieceComponent implements OnInit {
   }
 
   onDeleteCategoriePiece(id: number): void {
-    this.categoriePieceService.deleteCategoriePiece(id).subscribe({
-      next: () => {
-        console.log("Catégorie de pièce supprimée avec succès.");
-        this.getAllCategoriesPiece();
-      },
-      error: (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    });
+    if (confirm("Voulez-vous vraiment supprimer cette catégorie de pièce ?")) {
+      this.categoriePieceService.deleteCategoriePiece(id).subscribe({
+        next: () => {
+          this.toastService.success({ detail: "Catégorie de pièce supprimée avec succès", summary: "Succès", duration: 3000 });
+          this.getAllCategoriesPiece();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastService.error({ detail: error.message, summary: "Erreur", duration: 3000 });
+        }
+      });
+    }
   }
 
   openEditForm(categoriePiece: CategoriePiece): void {

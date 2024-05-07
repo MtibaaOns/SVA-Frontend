@@ -10,6 +10,8 @@ import { Observable, map } from 'rxjs';
 import { Cause } from '../../Cause/cause.model';
 import { Utilisateur } from '../../parametrages/utilisateur/utilisateur';
 import { Client } from '../../liste-client/liste-client';
+import { PieceRechange } from '../../PieceRechange/piece-rechange.model';
+
 
 @Component({
   selector: 'app-ajouter-intervention',
@@ -21,6 +23,7 @@ export class AjouterInterventionComponent implements OnInit {
   causes!: Cause[];
   utilisateurs!: Utilisateur[];
   clients!: Client[];
+  pieceRechanges! : PieceRechange[];
   private apiServerUrl = environment.apiBaseUrl;
   interventionForm!: FormGroup;
   public interventionIdUpdate!: number;
@@ -49,6 +52,8 @@ export class AjouterInterventionComponent implements OnInit {
       cause: ['', Validators.required],
       technicien: ['', Validators.required],
       client: ['', Validators.required],
+      pieceRechange: ['', Validators.required],
+
     });
 
     this.activateactiveroute.params.subscribe(val => {
@@ -67,6 +72,9 @@ export class AjouterInterventionComponent implements OnInit {
         this.generateCode(); // Appel de la méthode generateCode()
       }
     });
+    this.getPieceRechanges().subscribe(pieceRechanges=> {
+      this.pieceRechanges = pieceRechanges;
+    });
 
     this.getCauses().subscribe(causes => {
       this.causes = causes;
@@ -83,18 +91,19 @@ export class AjouterInterventionComponent implements OnInit {
 
   onFormSubmit() {
     if (this.interventionForm.invalid) {
-      this.toastService.error({ detail: 'Erreur', summary: 'Veillez remplir le formulaire de nouveau', duration: 3000 });
+      this.toastService.error({ detail: 'Erreur', summary: 'Veuillez remplir le formulaire de nouveau', duration: 3000 });
     } else {
       // Générer le code de l'intervention
       this.generateCode();
       this.getUtilisateurs;
-
+  
       if (this.isUpdateActive) {
         this.modifier();
       } else {
         this.interventionService.addIntervention(this.interventionForm.value).subscribe({
           next: (res: any) => {
-            this.toastService.success({ detail: "Succes", summary: "Intervention ajoutée", duration: 3000 });
+            this.toastService.success({ detail: "Succès", summary: "Intervention ajoutée", duration: 3000 });
+            this.router.navigate(['liste_interventions']); // Redirigez vers la liste des interventions
             this.interventionForm.reset();
           },
           error: (error: any) => {
@@ -104,13 +113,12 @@ export class AjouterInterventionComponent implements OnInit {
       }
     }
   }
-
   modifier() {
     const intervention = this.interventionForm.value;
     const id = this.interventionIdUpdate;
-    const { dateDeb, dateFin, duree, observation, cloturer, montantHT, facturer, cause, technicien,client } = intervention;
+    const { dateDeb, dateFin, duree, observation, cloturer, montantHT, facturer, cause, technicien,client,pieceRechange } = intervention;
 
-    this.interventionService.updateIntervention(intervention, id, dateDeb, dateFin, duree, observation, cloturer, montantHT, facturer, cause, technicien,client)
+    this.interventionService.updateIntervention(intervention, id, dateDeb, dateFin, duree, observation, cloturer, montantHT, facturer, cause, technicien,client,pieceRechange)
       .subscribe(res => {
         this.toastService.success({ detail: 'SUCCESS', summary: "Les détails d'intervention ont été mis à jour avec succès", duration: 3000 });
         this.router.navigate(['liste_interventions']);
@@ -130,7 +138,8 @@ export class AjouterInterventionComponent implements OnInit {
       facturer: intervention.facturer,
       cause: intervention.cause,
       technicien: intervention.technicien,
-      client:intervention.client
+      client:intervention.client,
+      pieceRechange:intervention.pieceRechange
     });
   }
 
@@ -144,6 +153,10 @@ export class AjouterInterventionComponent implements OnInit {
       this.interventionForm.patchValue({ code: newCode });
     });
   }
+  getPieceRechanges(): Observable<PieceRechange[]> {
+    return this.http.get<PieceRechange[]>(this.apiServerUrl + '/piecesrechanges/all');
+  }
+
 
   getCauses(): Observable<Cause[]> {
     return this.http.get<Cause[]>(this.apiServerUrl + '/causes/all');

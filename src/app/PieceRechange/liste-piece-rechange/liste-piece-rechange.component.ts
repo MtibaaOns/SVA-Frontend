@@ -7,6 +7,7 @@ import { AjouterPieceRechangeComponent } from '../ajouter-piece-rechange/ajouter
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { NgToastService } from 'ng-angular-popup';
 @Component({
   selector: 'app-liste-piece-rechange',
   templateUrl: './liste-piece-rechange.component.html',
@@ -19,7 +20,7 @@ export class ListePieceRechangeComponent implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private pieceRechangeService: PieceRechangeService) {}
+  constructor(private dialog: MatDialog, private pieceRechangeService: PieceRechangeService, private toastService: NgToastService) {}
 
   ngOnInit(): void {
     this.getAllPiecesRechanges();
@@ -60,15 +61,17 @@ export class ListePieceRechangeComponent implements OnInit{
   }
 
   onDeletePieceRechange(id: number): void {
-    this.pieceRechangeService.deletePieceRechange(id).subscribe({
-      next: () => {
-        console.log("Pièce de rechange supprimée avec succès.");
-        this.getAllPiecesRechanges();
-      },
-      error: (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    });
+    if (confirm("Voulez-vous vraiment supprimer cette pièce de rechange ?")) {
+      this.pieceRechangeService.deletePieceRechange(id).subscribe({
+        next: () => {
+          this.toastService.success({ detail: "Pièce de rechange supprimée avec succès", summary: "Succès", duration: 3000 });
+          this.getAllPiecesRechanges();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastService.error({ detail: error.message, summary: "Erreur", duration: 3000 });
+        }
+      });
+    }
   }
 
   openEditForm(pieceRechange: PieceRechange): void {

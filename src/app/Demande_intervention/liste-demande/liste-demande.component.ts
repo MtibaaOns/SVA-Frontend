@@ -6,6 +6,7 @@ import { Demande } from '../dem_interv.model';
 import { DemIntervService } from '../dem-interv.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-liste-demande',
@@ -20,7 +21,9 @@ export class ListeDemandeComponent implements OnInit {
   displayedColumns: string[] = [ 'code', 'statut','titre','priorite','dateDeb', 'dateFin','description','actions'];
   constructor(
     private demandeService : DemIntervService,
-    private route: Router) { }
+    private route: Router,
+    private toastService: NgToastService
+  ) { }
 
   ngOnInit() {
     this.getAllDemandes();
@@ -53,17 +56,18 @@ export class ListeDemandeComponent implements OnInit {
   }
 
   OndeleteDemande(numDem: number): void {
-    this.demandeService.deleteDemande(numDem).subscribe({
-      next: () => {
-        console.log("Contrat supprimée avec succès.");
-        this.getAllDemandes();
-      },
-      error: (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    });
+    if (confirm("Voulez-vous vraiment supprimer cette demande ?")) {
+      this.demandeService.deleteDemande(numDem).subscribe({
+        next: () => {
+          this.toastService.success({ detail: "Demande supprimée avec succès", summary: "Succès", duration: 3000 });
+          this.getAllDemandes();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastService.error({ detail: error.message, summary: "Erreur", duration: 3000 });
+        }
+      });
+    }
   }
-
 
 
 }

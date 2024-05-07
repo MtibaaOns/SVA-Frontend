@@ -7,6 +7,7 @@ import { AjouterCauseComponent } from '../ajouter-cause/ajouter-cause.component'
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-liste-cause',
@@ -20,7 +21,7 @@ export class ListeCauseComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private causeService: CauseService) {}
+  constructor(private dialog: MatDialog, private causeService: CauseService, private toastService: NgToastService) {}
 
   ngOnInit(): void {
     this.getAllCauses();
@@ -62,15 +63,17 @@ export class ListeCauseComponent implements OnInit {
   }
 
   onDeleteCause(id: number): void {
-    this.causeService.deleteCause(id).subscribe({
-      next: () => {
-        console.log("Cause supprimée avec succès.");
-        this.getAllCauses();
-      },
-      error: (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    });
+    if (confirm("Voulez-vous vraiment supprimer cette cause ?")) {
+      this.causeService.deleteCause(id).subscribe({
+        next: () => {
+          this.toastService.success({ detail: "Cause supprimée avec succès", summary: "Succès", duration: 3000 });
+          this.getAllCauses();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastService.error({ detail: error.message, summary: "Erreur", duration: 3000 });
+        }
+      });
+    }
   }
 
   openEditForm(cause: Cause): void {

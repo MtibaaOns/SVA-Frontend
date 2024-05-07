@@ -7,6 +7,8 @@ import { SocAddEditComponent } from './soc-add-edit/soc-add-edit.component';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import { NgToastService } from 'ng-angular-popup';
+
 
 
 @Component({
@@ -22,7 +24,7 @@ export class SocieteComponent implements OnInit {
  
    @ViewChild(MatPaginator) paginator!: MatPaginator;
    @ViewChild(MatSort) sort!: MatSort;
-   constructor(private _dialog: MatDialog, private sociétéService: SocieteService) {}
+   constructor(private _dialog: MatDialog, private sociétéService: SocieteService,  private toastService: NgToastService) {}
  
    ngOnInit(): void {
      this.getAllSociétés();
@@ -64,17 +66,18 @@ export class SocieteComponent implements OnInit {
    }
  
    OndeleteSociete(id: number): void {
-     this.sociétéService.deleteSociete(id).subscribe({
-       next: () => {
-         console.log("Société supprimée avec succès.");
-         this.getAllSociétés();
-       },
-       error: (error: HttpErrorResponse) => {
-         alert(error.message);
-       }
-     });
-   }
- 
+    if (confirm("Voulez-vous vraiment supprimer cette société ?")) {
+      this.sociétéService.deleteSociete(id).subscribe({
+        next: () => {
+          this.toastService.success({ detail: "Société supprimée avec succès", summary: "Succès", duration: 3000 });
+          this.getAllSociétés();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastService.error({ detail: error.message, summary: "Erreur", duration: 3000 });
+        }
+      });
+    }
+  }
    openEditForm(societe: Societe): void {
      const dialogRef = this._dialog.open(SocAddEditComponent, {
        data: societe // Passer la société à l'écran d'édition

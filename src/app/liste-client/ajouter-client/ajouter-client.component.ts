@@ -54,6 +54,7 @@ export class AjouterClientComponent implements OnInit  {
     this.clientService.addClient(this.cliForm.value).subscribe(
       res => {
         this.toastService.success({detail:"Success",summary:"client ajouté",duration:3000});
+        this.router.navigate(['liste_client']);
         this.cliForm.reset();
       },
       

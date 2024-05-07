@@ -75,6 +75,13 @@
                         <mat-error *ngIf="interventionForm.get('cause')?.hasError('required')">Ce champ est obligatoire</mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="fill">
+                        <mat-label>PieceRechange</mat-label>
+                        <mat-select formControlName="pieceRechange">
+                            <mat-option *ngFor="let pieceRechange of pieceRechanges" [value]="pieceRechange.desPiece">{{ pieceRechange.desPiece }}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="interventionForm.get('pieceRechange')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
                         <mat-label>Technicien</mat-label>
                         <mat-select formControlName="technicien">
                           <mat-option *ngFor="let utilisateur of utilisateurs" [value]="utilisateur.nom">{{ utilisateur.nom }}</mat-option>
