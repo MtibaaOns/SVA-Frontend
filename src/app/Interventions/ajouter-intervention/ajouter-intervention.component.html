@@ -15,6 +15,23 @@
                         <input matInput type="text" id="code" formControlName="code" [readonly]="true">
                         <mat-error *ngIf="interventionForm.get('code')?.hasError('required')">Ce champ est obligatoire</mat-error>
                     </mat-form-field>
+                        
+                    <mat-form-field appearance="fill">
+                        <mat-label>Technicien</mat-label>
+                        <mat-select formControlName="technicien">
+                          <mat-option *ngFor="let utilisateur of utilisateurs" [value]="utilisateur.nom">{{ utilisateur.nom }}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="interventionForm.get('technicien')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                      </mat-form-field>
+
+                      <mat-form-field appearance="fill">
+                        <mat-label>Client</mat-label>
+                        <mat-select formControlName="client">
+                            <mat-option *ngFor="let client of clients" [value]="client.nom">{{ client.nom }}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="interventionForm.get('client')?.hasError('required')">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+
                     <mat-form-field appearance="fill">
                         <mat-label>Date de début</mat-label>
                         <input matInput [matDatepicker]="picker1" placeholder="Date de début" formControlName="dateDeb">
@@ -47,7 +64,6 @@
                     <mat-form-field appearance="fill">
                         <mat-label>Clôturé</mat-label>
                         <mat-select formControlName="cloturer">
-                            <mat-option [value]="true">Oui</mat-option>
                             <mat-option [value]="false">Non</mat-option>
                         </mat-select>
                         <mat-error *ngIf="interventionForm.get('cloturer')?.hasError('required')">Ce champ est obligatoire</mat-error>
@@ -74,38 +90,57 @@
                         </mat-select>
                         <mat-error *ngIf="interventionForm.get('cause')?.hasError('required')">Ce champ est obligatoire</mat-error>
                     </mat-form-field>
+
                     <mat-form-field appearance="fill">
-                        <mat-label>PieceRechange</mat-label>
-                        <mat-select formControlName="pieceRechange">
-                            <mat-option *ngFor="let pieceRechange of pieceRechanges" [value]="pieceRechange.desPiece">{{ pieceRechange.desPiece }}</mat-option>
-                        </mat-select>
+                        <mat-label>Pièce de rechange</mat-label>
+                        <input matInput type="text" formControlName="pieceRechange" readonly>
+                        <button mat-icon-button (click)="showAllPieceRechanges()">
+                            <mat-icon color="accent">add</mat-icon>
+                        </button>
                         <mat-error *ngIf="interventionForm.get('pieceRechange')?.hasError('required')">Ce champ est obligatoire</mat-error>
                     </mat-form-field>
-                    <mat-form-field appearance="fill">
-                        <mat-label>Technicien</mat-label>
-                        <mat-select formControlName="technicien">
-                          <mat-option *ngFor="let utilisateur of utilisateurs" [value]="utilisateur.nom">{{ utilisateur.nom }}</mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="interventionForm.get('technicien')?.hasError('required')">Ce champ est obligatoire</mat-error>
-                      </mat-form-field>
+    </div>
 
-                      <mat-form-field appearance="fill">
-                        <mat-label>Client</mat-label>
-                        <mat-select formControlName="client">
-                            <mat-option *ngFor="let client of clients" [value]="client.nom">{{ client.nom }}</mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="interventionForm.get('client')?.hasError('required')">Ce champ est obligatoire</mat-error>
-                    </mat-form-field>
+    <div *ngIf="showPieceRechangeTable">
+        <table mat-table [dataSource]="pieceRechanges" class="mat-elevation-z8">
+            <ng-container matColumnDef="codePiece">
+                <th mat-header-cell *matHeaderCellDef>Code</th>
+                <td mat-cell *matCellDef="let pieceRechange">{{ pieceRechange.codePiece }}</td>
+            </ng-container>
+            <ng-container matColumnDef="desPiece">
+                <th mat-header-cell *matHeaderCellDef>Désignation</th>
+                <td mat-cell *matCellDef="let pieceRechange">{{ pieceRechange.desPiece }}</td>
+            </ng-container>
+            <ng-container matColumnDef="prixAchat">
+                <th mat-header-cell *matHeaderCellDef>Prix d'achat</th>
+                <td mat-cell *matCellDef="let pieceRechange">{{ pieceRechange.prixAchat }}</td>
+            </ng-container>
+            <ng-container matColumnDef="quantitePiece">
+                <th mat-header-cell *matHeaderCellDef>Quantité</th>
+                <td mat-cell *matCellDef="let pieceRechange">
+                    <input matInput type="number" [value]="pieceRechange ? pieceRechange.quantitePiece : 0" (input)="updateQuantity($event, pieceRechange)" [readonly]="!selectedPieces.includes(pieceRechange)">
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="prixTotal">
+                <th mat-header-cell *matHeaderCellDef>Prix Total</th>
+                <td mat-cell *matCellDef="let pieceRechange">{{ pieceRechange ? calculateTotalPrice(pieceRechange) : 0 }}</td>
+            </ng-container>
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                    Coche
+                </th>
+                <td mat-cell *matCellDef="let pieceRechange">
+                    <mat-checkbox (change)="toggleSelection($event.checked, pieceRechange)" [checked]="selectedPieces.includes(pieceRechange)">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+            
+         
 
-
-
-
-
-
-
-
-
-                </div>
+            <tr mat-header-row *matHeaderRowDef="['select', 'codePiece', 'desPiece', 'prixAchat', 'quantitePiece','prixTotal']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['select', 'codePiece', 'desPiece', 'prixAchat', 'quantitePiece','prixTotal']"></tr>
+        </table>
+    </div>
             </form>
         </div>
     </mat-card-content>

@@ -36,6 +36,15 @@
               </ng-container>
   
             
+              <ng-container matColumnDef="quantitePiece">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> quantitePiece</th>
+                <td mat-cell *matCellDef="let pieceRechange"> {{ pieceRechange.quantitePiece }} </td>
+              </ng-container>
+
+            
+
+           
+                  
               <ng-container matColumnDef="prixAchat">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> PrixAchat</th>
                 <td mat-cell *matCellDef="let pieceRechange"> {{ pieceRechange.prixAchat }} </td>

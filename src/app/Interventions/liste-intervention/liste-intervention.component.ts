@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { InterventionService } from '../intervention.service';
 import { NgToastService } from 'ng-angular-popup';
+import { PieceRechange } from '../../PieceRechange/piece-rechange.model';
 
 @Component({
   selector: 'app-liste-intervention',
@@ -16,6 +17,7 @@ import { NgToastService } from 'ng-angular-popup';
 export class ListeInterventionComponent implements OnInit {
   public dataSource!: MatTableDataSource<Intervention>;
   public interventions!: Intervention[];
+  pieceRechanges: PieceRechange[] = [];
 
   displayedColumns: string[] = ['code', 'dateDeb', 'dateFin', 'duree', 'observation', 'cloturer', 'montantHT', 'facturer', 'cause','technicien','client','pieceRechange', 'actions'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -26,6 +28,7 @@ export class ListeInterventionComponent implements OnInit {
   ngOnInit() {
     this.getAllInterventions();
   }
+  
 
   getAllInterventions() {
     this.interventionService.getAllInterventions()

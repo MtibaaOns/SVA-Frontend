@@ -31,6 +31,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { NgToastModule } from 'ng-angular-popup';
 import { NgConfirmModule } from 'ng-confirm-box';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatMenuModule } from '@angular/material/menu';
 
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
@@ -57,6 +58,10 @@ import { AjouterInterventionComponent } from './Interventions/ajouter-interventi
 import { ListeInterventionComponent } from './Interventions/liste-intervention/liste-intervention.component';
 import { AjouterFactureComponent } from './Facture/ajouter-facture/ajouter-facture.component';
 import { ListeFactureComponent } from './Facture/liste-facture/liste-facture.component';
+
+
+
+import { ListeIntervPieceComponent } from './IntervPiece/liste-interv-piece/liste-interv-piece.component';
 
 
 
@@ -91,6 +96,7 @@ import { ListeFactureComponent } from './Facture/liste-facture/liste-facture.com
     ListeInterventionComponent,
     AjouterFactureComponent,
     ListeFactureComponent,
+    ListeIntervPieceComponent,
 
 
 
@@ -119,7 +125,8 @@ import { ListeFactureComponent } from './Facture/liste-facture/liste-facture.com
     ReactiveFormsModule,
     NgxMaterialTimepickerModule,
     MatSelectModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatMenuModule
     
      // Imported here
   ],

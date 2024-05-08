@@ -24,6 +24,8 @@ import { AjouterInterventionComponent } from './Interventions/ajouter-interventi
 import { AjouterFactureComponent } from './Facture/ajouter-facture/ajouter-facture.component';
 import { ListeFactureComponent } from './Facture/liste-facture/liste-facture.component';
 
+import { ListeIntervPieceComponent } from './IntervPiece/liste-interv-piece/liste-interv-piece.component';
+
 
 const routes: Routes = [
  
@@ -64,7 +66,7 @@ const routes: Routes = [
   {path:"liste_facture",component:ListeFactureComponent},
   {path: "update_facture/:id", component: AjouterFactureComponent },
 
-
+  {path:"liste_intervpiece",component:ListeIntervPieceComponent},
 ];
 
 @NgModule({

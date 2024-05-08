@@ -12,6 +12,10 @@ import { Utilisateur } from '../../parametrages/utilisateur/utilisateur';
 import { Client } from '../../liste-client/liste-client';
 import { PieceRechange } from '../../PieceRechange/piece-rechange.model';
 
+import { IntervPieceService } from '../../IntervPiece/interv-piece.service';
+import { IntervPiece } from '../../IntervPiece/IntervPiece.model';
+
+
 
 @Component({
   selector: 'app-ajouter-intervention',
@@ -23,12 +27,18 @@ export class AjouterInterventionComponent implements OnInit {
   causes!: Cause[];
   utilisateurs!: Utilisateur[];
   clients!: Client[];
-  pieceRechanges! : PieceRechange[];
+  pieceRechanges!: PieceRechange[];
   private apiServerUrl = environment.apiBaseUrl;
   interventionForm!: FormGroup;
   public interventionIdUpdate!: number;
   public isUpdateActive: boolean = false;
   lastCodeNumber: number = 0;
+  selectedPieceRechange: PieceRechange | null = null;
+  showPieceRechangeTable: boolean = false; 
+  selectedPieces: PieceRechange[] = [];
+  
+
+
 
   constructor(
     private http: HttpClient,
@@ -37,6 +47,8 @@ export class AjouterInterventionComponent implements OnInit {
     private interventionService: InterventionService,
     private toastService: NgToastService,
     private activateactiveroute: ActivatedRoute,
+    private intervPieceService: IntervPieceService
+  
   ) {}
 
   ngOnInit(): void {
@@ -52,8 +64,7 @@ export class AjouterInterventionComponent implements OnInit {
       cause: ['', Validators.required],
       technicien: ['', Validators.required],
       client: ['', Validators.required],
-      pieceRechange: ['', Validators.required],
-
+      pieceRechange: [''],
     });
 
     this.activateactiveroute.params.subscribe(val => {
@@ -69,17 +80,17 @@ export class AjouterInterventionComponent implements OnInit {
           }
         });
       } else {
-        this.generateCode(); // Appel de la méthode generateCode()
+        this.generateCode();
       }
     });
-    this.getPieceRechanges().subscribe(pieceRechanges=> {
+    this.getPieceRechanges().subscribe(pieceRechanges => {
       this.pieceRechanges = pieceRechanges;
     });
 
     this.getCauses().subscribe(causes => {
       this.causes = causes;
     });
-     
+
     this.getUtilisateurs().subscribe(utilisateurs => {
       this.utilisateurs = utilisateurs;
     });
@@ -87,7 +98,20 @@ export class AjouterInterventionComponent implements OnInit {
       this.clients = clients;
     });
     this.interventionForm.setValidators(this.validateRange.bind(this));
+    
+
+    
   }
+  selectPiecesRechange(pieceRechange: PieceRechange) {
+    this.selectedPieceRechange = pieceRechange;
+    this.interventionForm.get('pieceRechange')?.setValue(pieceRechange.desPiece);
+    this.interventionForm.get('quantitePiece')?.setValue(1);
+   
+
+    // Mettez la valeur initiale de la quantité ici
+  }
+
+
 
   onFormSubmit() {
     if (this.interventionForm.invalid) {
@@ -102,6 +126,18 @@ export class AjouterInterventionComponent implements OnInit {
       } else {
         this.interventionService.addIntervention(this.interventionForm.value).subscribe({
           next: (res: any) => {
+            // Enregistrer les données dans la liste IntervPiece
+            this.selectedPieces.forEach(piece => {
+              const intervPiece: IntervPiece = {
+                id: 0,
+                codeInterv: res.code,
+                codePiece: piece.codePiece,
+                prixTotal: this.calculateTotalPrice(piece),
+                quantitePiece: piece.quantitePiece
+              };
+              this.intervPieceService.addIntervPiece(intervPiece).subscribe();
+            });
+  
             this.toastService.success({ detail: "Succès", summary: "Intervention ajoutée", duration: 3000 });
             this.router.navigate(['liste_interventions']); // Redirigez vers la liste des interventions
             this.interventionForm.reset();
@@ -113,18 +149,22 @@ export class AjouterInterventionComponent implements OnInit {
       }
     }
   }
+
   modifier() {
     const intervention = this.interventionForm.value;
     const id = this.interventionIdUpdate;
-    const { dateDeb, dateFin, duree, observation, cloturer, montantHT, facturer, cause, technicien,client,pieceRechange } = intervention;
+    const { dateDeb, dateFin, duree, observation, cloturer, montantHT, facturer, cause, technicien, client, pieceRechange } = intervention;
 
-    this.interventionService.updateIntervention(intervention, id, dateDeb, dateFin, duree, observation, cloturer, montantHT, facturer, cause, technicien,client,pieceRechange)
+    this.interventionService.updateIntervention(intervention, id, dateDeb, dateFin, duree, observation, cloturer, montantHT, facturer, cause, technicien, client, pieceRechange)
       .subscribe(res => {
         this.toastService.success({ detail: 'SUCCESS', summary: "Les détails d'intervention ont été mis à jour avec succès", duration: 3000 });
         this.router.navigate(['liste_interventions']);
         this.interventionForm.reset();
       });
   }
+  selectPieceRechange(pieceRechangeDescription: string) {
+    this.interventionForm.get('pieceRechange')?.setValue(pieceRechangeDescription);
+}
 
   fillFormToUpdate(intervention: Intervention) {
     this.interventionForm.patchValue({
@@ -138,8 +178,8 @@ export class AjouterInterventionComponent implements OnInit {
       facturer: intervention.facturer,
       cause: intervention.cause,
       technicien: intervention.technicien,
-      client:intervention.client,
-      pieceRechange:intervention.pieceRechange
+      client: intervention.client,
+      pieceRechange: intervention.pieceRechange
     });
   }
 
@@ -153,10 +193,42 @@ export class AjouterInterventionComponent implements OnInit {
       this.interventionForm.patchValue({ code: newCode });
     });
   }
+  showAllPieceRechanges() {
+    this.getPieceRechanges().subscribe(pieceRechanges => {
+        this.pieceRechanges = pieceRechanges;
+        this.showPieceRechangeTable = true;
+        this.interventionForm.get('pieceRechange')?.setValue('');
+    });
+}
+
+updateQuantity(event: any, pieceRechange: PieceRechange) {
+  if (this.selectedPieces.includes(pieceRechange)) {
+      pieceRechange.quantitePiece = event.target.value;
+      this.calculateTotalPrice(pieceRechange);
+  }
+}
+
+calculateTotalPrice(pieceRechange: PieceRechange) {
+  const totalPrice = pieceRechange.prixAchat * pieceRechange.quantitePiece;
+  return totalPrice;
+}
+
+
+selectAllPieces(checked: boolean) {
+  this.selectedPieces = checked ? this.pieceRechanges : [];
+}
+
+toggleSelection(checked: boolean, pieceRechange: PieceRechange) {
+  if (checked) {
+      this.selectedPieces.push(pieceRechange);
+  } else {
+      this.selectedPieces = this.selectedPieces.filter(p => p !== pieceRechange);
+  }
+}
+
   getPieceRechanges(): Observable<PieceRechange[]> {
     return this.http.get<PieceRechange[]>(this.apiServerUrl + '/piecesrechanges/all');
   }
-
 
   getCauses(): Observable<Cause[]> {
     return this.http.get<Cause[]>(this.apiServerUrl + '/causes/all');
@@ -167,6 +239,7 @@ export class AjouterInterventionComponent implements OnInit {
       map(utilisateurs => utilisateurs.filter(utilisateur => utilisateur.role === 'Tech'))
     );
   }
+
   getClients(): Observable<Client[]> {
     return this.http.get<Client[]>(this.apiServerUrl + '/Clients/all');
   }
@@ -184,8 +257,7 @@ export class AjouterInterventionComponent implements OnInit {
         control.get('dateDeb')?.setErrors({ 'dateRangeError': true });
         control.get('dateFin')?.setErrors({ 'dateRangeError': true });
         return { 'dateRangeError': true };
-      } 
-       else {
+      } else {
         control.get('dateDeb')?.setErrors(null);
         control.get('dateFin')?.setErrors(null);
       }
@@ -193,5 +265,4 @@ export class AjouterInterventionComponent implements OnInit {
 
     return null;
   }
-
 }

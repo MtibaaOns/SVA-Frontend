@@ -37,6 +37,9 @@ export class AjouterPieceRechangeComponent implements OnInit {
       prixAchat: ['', [Validators.required, this.validateNegativePrice]],
       tauxTVA: ['', [Validators.required, Validators.min(0), Validators.max(19)]],
       categoriePiece: ['', Validators.required],
+      quantitePiece:[''],
+    
+    
     });
   }
 
@@ -54,10 +57,10 @@ export class AjouterPieceRechangeComponent implements OnInit {
   generateCodePiece(): void {
     this.pieceRechangeService.getAllPiecesRechanges().subscribe((piecesRechange) => {
       const lastPiece = piecesRechange[piecesRechange.length - 1];
-      const lastCode = lastPiece ? lastPiece.codePiece : 'code-00';
+      const lastCode = lastPiece ? lastPiece.codePiece : 'piece-00';
       const lastNumber = parseInt(lastCode.split('-')[1]);
       this.lastCodeNumber = lastNumber;
-      const newCode = `code-${(this.lastCodeNumber + 1).toString().padStart(2, '0')}`;
+      const newCode = `piece-${(this.lastCodeNumber + 1).toString().padStart(2, '0')}`;
       this.pieceRechangeForm.patchValue({ codePiece: newCode });
     });
   }
@@ -78,7 +81,8 @@ export class AjouterPieceRechangeComponent implements OnInit {
           this.pieceRechangeForm.value.desPiece,
           this.pieceRechangeForm.value.prixAchat,
           this.pieceRechangeForm.value.tauxTVA,
-          this.pieceRechangeForm.value.categoriePiece
+          this.pieceRechangeForm.value.categoriePiece,
+         
 
         ).subscribe({
           next: () => {
